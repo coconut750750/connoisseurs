@@ -10,7 +10,7 @@ var io = require('socket.io')(server, {
   pingTimeout: 30000
 });
 
-const Game = require('./app/game');
+const GameInterface = require('./app/game');
 const GameManager = require('./app/manager');
 const gameSocketio = require('./app/socketio');
 
@@ -44,7 +44,7 @@ app.io.on('connect', function (socket) {
   socket.on('joinGame', data => {
     name = data.name;
     game = app.gm.retrieveGame(data.gameCode);
-    if (!(game instanceof Game)) {
+    if (!(game instanceof GameInterface)) {
       return;
     }
     socket.join(data.gameCode);
