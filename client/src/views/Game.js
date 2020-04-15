@@ -2,9 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import debounce from "lodash/debounce";
 
 import GameCodeBadge from '../components/GameCodeBadge';
-import PlayerList from '../components/PlayerList';
-
-// import GameHeader from '../game_components/GameHeader';
 
 import Lobby from '../game_views/Lobby';
 import Table from '../game_views/Table';
@@ -21,7 +18,7 @@ const JUDGING = "judging";
 const WINNER = "winner";
 const RESULTS = "results";
 
-function Game(props) {
+export default function Game(props) {
   const [message, setMessage] = useState("");
   const [phase, setPhase] = useState(LOBBY);
 
@@ -69,9 +66,30 @@ function Game(props) {
       disappearCallback();
     });
 
-    props.socket.on('winner', data => {
-      const { winner } = data;
-      setWinner(winner);
+    props.socket.on('black', data => {
+
+    });
+
+    props.socket.on('deck', data => {
+
+    });
+
+    props.socket.on('hand', data => {
+
+    });
+
+    props.socket.on('revealed', data => {
+
+    });
+
+    props.socket.on('win', data => {
+    });
+
+    props.socket.on('points', data => {
+      setScoreBoard(newScoreBoard(data.points));
+    });
+
+    props.socket.on('results', data => {
     });
 
     // get data if disconnected
@@ -86,33 +104,22 @@ function Game(props) {
 
   }, [props.gameCode, props.name, props.socket, disappearCallback]);
 
-  useEffect(() => {
-    props.socket.off('reveal');
-    props.socket.on('reveal', data => {
-      const newReveals = data.reveal;
-      setReveals([...reveals, ...newReveals]);
-    });
-  }, [props.socket, reveals]);
-
-  // const game_views = {
-  //   [LOBBY]: <Lobby 
-  //             socket={props.socket}
-  //             players={players}
-  //             me={me}/>,
-  // };
-
   return (
     <div>
       <GameCodeBadge gameCode={props.gameCode}/>
       <br/>
 
-      <PlayerList
-        players={players}/>
-
-      {//game_views[phase]
+      {phase === LOBBY &&
+        <Lobby
+          socket={props.socket}
+          players={players}
+          me={me}/>
       }
-
-      <div>{ phase }</div>
+      {[SELECTION, REVEAL, JUDGING, WINNER].includes(phase) &&
+        <Table
+          socket={props.socket}
+          players={players}/>
+      }
 
       <br/>
       {message && <div className="alert alert-danger" role="alert">
@@ -121,5 +128,3 @@ function Game(props) {
     </div>
   );
 }
-
-export default Game;

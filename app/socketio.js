@@ -20,8 +20,8 @@ function socketio(socket, game, name, player) {
 
   socket.on('playWhite', data => {
     try {
-      const { cid } = data;
-      game.playCard(player, cid);
+      const { cids } = data;
+      game.playCards(player, cids);
     } catch (err) {
       socket.emit('message', { message: err.message });
     }
