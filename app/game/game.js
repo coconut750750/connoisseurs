@@ -111,7 +111,7 @@ class Game extends GameInterface {
     this.revealBlackCard();
   }
 
-  playCard(player, cid) {
+  playCards(player, cids) {
     if (this.phase !== PHASES[1]) {
       throw new Error("You cannot play white cards right now");
     }
@@ -121,13 +121,16 @@ class Game extends GameInterface {
     if (this.round.alreadyPlayed(player.name)) {
       throw new Error("You have already played a white card");
     }
-
-    const removed = player.removeCard(cid);
-    if (removed.length === 0) {
-      throw new Error("That card is not in your hand");
+    if (this.round.currentBlackCard.blanks !== cids.length) {
+      throw new Error("You didn't play the right amount of white cards");
     }
 
-    this.round.playCard(player.name, removed[0]);
+    const removed = player.removeCards(cids);
+    if (removed.length !== cids.length) {
+      throw new Error("A card not in your hand was played");
+    }
+
+    this.round.playCards(player.name, removed);
 
     if (this.round.allPlayed()) {
       this.beginReveal();
@@ -141,9 +144,10 @@ class Game extends GameInterface {
   beginReveal() {
     this.phase = PHASES[2];
     this.notifyPhaseChange();
+    this.round.shuffleWhites();
   }
 
-  revealCard(player, cid) {
+  revealNext(player) {
     if (this.phase !== PHASES[2]) {
       throw new Error("You cannot reveal cards right now");
     }
@@ -151,7 +155,7 @@ class Game extends GameInterface {
       throw new Error("You cannot reveal cards");
     }
     
-    this.round.revealCard(cid);
+    this.round.revealNext();
     this.notifyRevealed();
 
     if (this.round.allRevealed()) {
@@ -237,16 +241,15 @@ class Game extends GameInterface {
   }
 
   notifyRevealed() {
-    this.broadcast('revealed', { revealed: this.round.revealedWhites.map(c => c.json()) });
+    this.broadcast('revealed', { revealed: this.round.revealedWhites });
   }
 
   notifyWin() {
-    const { winner, cid } = this.round.getWinner();
-    if (cid === undefined) {
+    const { winner, cards } = this.round.getWinner();
+    if (cards === undefined) {
       return;
     }
-    const card = this.deck.getWhite(cid);
-    this.broadcast('win', { winner, card: card.json() });
+    this.broadcast('win', { winner, cards });
   }
 
   notifyPoints() {
@@ -265,7 +268,17 @@ class Game extends GameInterface {
 
   reconnectSendRevealed(player) {
     if (this.started) {
-      player.send('revealed', { revealed: this.round.revealedWhites.map(c => c.json()) });
+      player.send('revealed', { revealed: this.round.revealedWhites });
+    }
+  }
+
+  reconnectSendWinner(player) {
+    if (this.started) {
+      const { winner, cards } = this.round.getWinner();
+      if (cards === undefined) {
+        return;
+      }
+      this.broadcast('win', { winner, cards });
     }
   }
 

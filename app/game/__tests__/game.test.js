@@ -13,13 +13,31 @@ const setConnoisseur = (game, name) => {
   game.pmanager.setConnoisseur(name);
 };
 
+const setNumBlank = (game, n) => {
+  game.round.currentBlackCard.blanks = n;
+}
+
 const playCards = (game, names) => {
+  setNumBlank(game, 1);
   let cids = [];
   for (let name of names) {
     const p = game.getPlayer(name);
     const c = p.hand[0];
-    game.playCard(p, c.id);
-    cids.push(c.id);
+    game.playCards(p, [c.id]);
+    cids.push([c.id]);
+  }
+  return cids;
+};
+
+const playDoubleCards = (game, names) => {
+  setNumBlank(game, 2);
+  let cids = [];
+  for (let name of names) {
+    const p = game.getPlayer(name);
+    const c1 = p.hand[0];
+    const c2 = p.hand[1];
+    game.playCards(p, [c1.id, c2.id]);
+    cids.push([c1.id, c2.id]);
   }
   return cids;
 };
@@ -113,10 +131,10 @@ describe('playing white cards', () => {
     const game = new Game('code', () => {}, undefined, () => {});
     game.addPlayer('p1', undefined);
     const p1 = game.getPlayer('p1');
-    expect( () => game.playCard(p1, 0)).toThrow();
+    expect( () => game.playCards(p1, [0])).toThrow();
   });
 
-  test('reduces hand size by one', () => {
+  test('playing one reduces hand size by one', () => {
     const game = new Game('code', () => {}, undefined, () => {});
     threePlayerStart(game);
     setConnoisseur(game, 'p3');
@@ -125,12 +143,13 @@ describe('playing white cards', () => {
 
     expect(p1.needCards()).toBe(0);
 
-    game.playCard(p1, card.id);
+    setNumBlank(game, 1);
+    game.playCards(p1, [card.id]);
 
     expect(p1.needCards()).toBe(1);
   });
 
-  test('cannot play more than one white card', () => {
+  test('playing two reduces hand size by two', () => {
     const game = new Game('code', () => {}, undefined, () => {});
     threePlayerStart(game);
     setConnoisseur(game, 'p3');
@@ -138,9 +157,26 @@ describe('playing white cards', () => {
     const card1 = p1.hand[0];
     const card2 = p1.hand[1];
 
-    game.playCard(p1, card1.id);
+    expect(p1.needCards()).toBe(0);
 
-    expect( () => game.playCard(p1, card2.id) ).toThrow();
+    setNumBlank(game, 2); 
+    game.playCards(p1, [card1.id, card2.id]);
+
+    expect(p1.needCards()).toBe(2);
+  });
+
+  test('cannot play twice', () => {
+    const game = new Game('code', () => {}, undefined, () => {});
+    threePlayerStart(game);
+    setConnoisseur(game, 'p3');
+    const p1 = game.getPlayer('p1');
+    const card1 = p1.hand[0];
+    const card2 = p1.hand[1];
+
+    setNumBlank(game, 1);
+    game.playCards(p1, [card1.id]);
+
+    expect( () => game.playCards(p1, [card2.id]) ).toThrow();
   });
 
   test('cannot play a card that is not in hand', () => {
@@ -151,7 +187,47 @@ describe('playing white cards', () => {
     const p2 = game.getPlayer('p2');
     const invalidCard = p2.hand[0];
 
-    expect( () => game.playCard(p1, invalidCard.id) ).toThrow();
+    setNumBlank(game, 1);
+    expect( () => game.playCards(p1, [invalidCard.id]) ).toThrow();
+  });
+
+  test('cannot play one card in hand and one card not in hand', () => {
+    const game = new Game('code', () => {}, undefined, () => {});
+    threePlayerStart(game);
+    setConnoisseur(game, 'p3');
+    const p1 = game.getPlayer('p1');
+    const p2 = game.getPlayer('p2');
+    const validCard = p1.hand[0];
+    const invalidCard = p2.hand[0];
+
+    setNumBlank(game, 2);
+    expect( () => game.playDoubleCards(p1, [validCard.id, invalidCard.id]) ).toThrow();
+  });
+
+  test('fail when not enough cards played', () => {
+    const game = new Game('code', () => {}, undefined, () => {});
+    threePlayerStart(game);
+    setConnoisseur(game, 'p3');
+    const p1 = game.getPlayer('p1');
+    const p2 = game.getPlayer('p2');
+    const card = p1.hand[0];
+
+    setNumBlank(game, 2);
+    expect( () => game.playDoubleCards(p1, [card.id]) ).toThrow();
+  });
+
+  test('fail when too many cards played', () => {
+    const game = new Game('code', () => {}, undefined, () => {});
+    threePlayerStart(game);
+    setConnoisseur(game, 'p3');
+    const p1 = game.getPlayer('p1');
+    const p2 = game.getPlayer('p2');
+    const card1 = p1.hand[0];
+    const card2 = p1.hand[1];
+
+    setNumBlank(game, 1);
+    expect( () => game.playDoubleCards(p1, [card1.id, card2.id]) ).toThrow();
+
   });
 
   test('connoisseur cannot play a card', () => {
@@ -161,7 +237,8 @@ describe('playing white cards', () => {
     const p1 = game.getPlayer('p1');
     const card = p1.hand[0];
 
-    expect( () => game.playCard(p1, card.id) ).toThrow();
+    setNumBlank(game, 1);
+    expect( () => game.playCards(p1, [card.id]) ).toThrow();
   });
 
   test('goes to reveal phase after every player plays and is broadcasted', () => {
@@ -176,8 +253,9 @@ describe('playing white cards', () => {
     const card1 = p1.hand[0];
     const card2 = p2.hand[0];
 
-    game.playCard(p1, card1.id);
-    game.playCard(p2, card2.id);
+    setNumBlank(game, 1);
+    game.playCards(p1, [card1.id]);
+    game.playCards(p2, [card2.id]);
 
     expect(didBroadcast).toBeTruthy();
   });
@@ -189,10 +267,10 @@ describe('revealing white cards', () => {
     threePlayerStart(game);
     setConnoisseur(game, 'p1');
     const p1 = game.getPlayer('p1');
-    expect( () => game.revealCard(p1, 0) ).toThrow();
+    expect( () => game.revealNext(p1) ).toThrow();
   });
 
-  test('only connoisseur cannot reveal', () => {
+  test('only connoisseur can reveal', () => {
     const game = new Game('code', () => {}, undefined, () => {});
     threePlayerStart(game);
     setConnoisseur(game, 'p1');
@@ -200,19 +278,20 @@ describe('revealing white cards', () => {
     const p1 = game.getPlayer('p1')
     const p2 = game.getPlayer('p2')
 
-    expect( () => game.revealCard(p2, cids[0]) ).toThrow();
-    expect( () => game.revealCard(p1, cids[0]) ).not.toThrow();
+    expect( () => game.revealNext(p2) ).toThrow();
+    expect( () => game.revealNext(p1) ).not.toThrow();
   });
 
-  test('cannot reveal same card twice', () => {
+  test('cannot reveal next when no more to reveal card twice', () => {
     const game = new Game('code', () => {}, undefined, () => {});
     threePlayerStart(game);
     setConnoisseur(game, 'p1');
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1')
 
-    expect( () => game.revealCard(p1, cids[0]) ).not.toThrow();
-    expect( () => game.revealCard(p1, cids[0]) ).toThrow();
+    expect( () => game.revealNext(p1) ).not.toThrow();
+    expect( () => game.revealNext(p1) ).not.toThrow();
+    expect( () => game.revealNext(p1) ).toThrow();
   });
 
   test('revealing one card broadcasts the card', () => {
@@ -230,7 +309,7 @@ describe('revealing white cards', () => {
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1')
 
-    game.revealCard(p1, cids[0]);
+    game.revealNext(p1);
 
     expect(didBroadcast).toBeTruthy();
   });
@@ -280,8 +359,8 @@ describe('revealing white cards', () => {
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
 
-    game.revealCard(p1, cids[0]);
-    game.revealCard(p1, cids[1]);
+    game.revealNext(p1);
+    game.revealNext(p1);
 
     expect(didBroadcast).toBeTruthy();
   });
@@ -305,8 +384,20 @@ describe('selecting a winner', () => {
     const p2 = game.getPlayer('p2');
     revealCards(game, p1);
 
-    expect( () => game.selectWinner(p2, cids[0]) ).toThrow();
-    expect( () => game.selectWinner(p1, cids[0]) ).not.toThrow();
+    expect( () => game.selectWinner(p2, cids[0][0]) ).toThrow();
+    expect( () => game.selectWinner(p1, cids[0][0]) ).not.toThrow();
+  });
+
+  test('selecting winner when two cards played', () => {
+    const game = new Game('code', () => {}, undefined, () => {});
+    threePlayerStart(game);
+    setConnoisseur(game, 'p1');
+    const cids = playDoubleCards(game, ['p2', 'p3']);
+    const p1 = game.getPlayer('p1');
+    const p2 = game.getPlayer('p2');
+    revealCards(game, p1);
+
+    expect( () => game.selectWinner(p1, cids[0][1]) ).not.toThrow();
   });
 
   test('winner is broadcasted', () => {
@@ -316,18 +407,21 @@ describe('selecting a winner', () => {
         return;
       }
 
-      const { winner, card } = data;
-      didBroadcast = didBroadcast || (winner !== undefined && card !== undefined);
+      const { winner, cards } = data;
+      didBroadcast = didBroadcast || (winner !== undefined && cards !== undefined);
     });
     threePlayerStart(game);
     setConnoisseur(game, 'p1');
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
+    const p2 = game.getPlayer('p2');
     revealCards(game, p1);
 
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
 
     expect(didBroadcast).toBeTruthy();
+
+    expect(p2.points).toBe(1);
   });
 
   test('immediately goes to winner phase', () => {
@@ -341,7 +435,7 @@ describe('selecting a winner', () => {
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
 
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
 
     expect(game.phase).toEqual('winner');
     expect(didBroadcast).toBeTruthy();
@@ -355,8 +449,8 @@ describe('selecting a winner', () => {
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
 
-    game.selectWinner(p1, cids[0]);
-    expect( () => game.selectWinner(p1, cids[0])).toThrow();
+    game.selectWinner(p1, cids[0][0]);
+    expect( () => game.selectWinner(p1, cids[0][0])).toThrow();
   });
 });
 
@@ -396,7 +490,7 @@ describe('starting a new round', () => {
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
 
     game.roundStart();
 
@@ -418,7 +512,7 @@ describe('starting a new round', () => {
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
     game.roundStart();
 
     expect(broadcasts).toBe(2);
@@ -426,7 +520,7 @@ describe('starting a new round', () => {
 });
 
 describe('game end', () => {
-  test.only('can only game end only a round is complete', () => {
+  test('can only game end only a round is complete', () => {
     const game = new Game('code', () => {}, undefined, (event, data) => {});
     expect(() => game.endGame()).toThrow();
     
@@ -443,7 +537,7 @@ describe('game end', () => {
     revealCards(game, p1);
     expect(() => game.endGame()).toThrow();
 
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
     expect(() => game.endGame()).not.toThrow();
   });
 
@@ -457,7 +551,7 @@ describe('game end', () => {
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
     game.endGame();
 
     expect(didBroadcast).toBeTruthy();
@@ -473,7 +567,7 @@ describe('game end', () => {
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
-    game.selectWinner(p1, cids[0]);
+    game.selectWinner(p1, cids[0][0]);
     game.endGame();
 
     expect(didBroadcast).toBeTruthy();

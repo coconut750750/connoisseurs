@@ -28,7 +28,7 @@ describe('player test', () => {
     player.addCard(new WhiteCard(1, "1"));
     player.addCard(new WhiteCard(2, "2"));
 
-    player.removeCard(2);
+    player.removeCards([2]);
     expect(player.hand.length).toBe(1);
     expect(player.hand[0].id).toBe(1);
   });

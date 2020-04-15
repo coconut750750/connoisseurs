@@ -46,8 +46,8 @@ class Player {
     this.hand = [];
   }
 
-  removeCard(cid) {
-    return _.remove(this.hand, c => c.id === cid);
+  removeCards(cids) {
+    return _.remove(this.hand, c => cids.includes(c.id));
   }
 
   enoughCards() {

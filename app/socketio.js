@@ -38,8 +38,7 @@ function socketio(socket, game, name, player) {
 
   socket.on('revealWhite', data => {
     try {
-      const { cid } = data;
-      game.revealCard(player, cid);
+      game.revealNext(player);
     } catch (err) {
       socket.emit('message', { message: err.message });
     }

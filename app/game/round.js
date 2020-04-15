@@ -11,8 +11,8 @@ class Round {
     this.currentBlackCard = undefined;
     this.hiddenWhites = [];
     this.revealedWhites = [];
-    this.donePlayers = new Set();
-    this.cardOwners = {};
+    this.cardsToPlayer = {};
+    this.playerToCards = {};
     this.nextConnoisseurName = undefined;
     this.winningCid = undefined;
   }
@@ -22,30 +22,38 @@ class Round {
   }
 
   discard(deck) {
-    deck.discardWhites(this.revealedWhites);
+    for (let set of this.revealedWhites) {
+      deck.discardWhites(set);
+    }
     if (this.currentBlackCard !== undefined) {
       deck.discardBlack(this.currentBlackCard);
     }
   }
 
   alreadyPlayed(name) {
-    return this.donePlayers.has(name);
+    return name in this.playerToCards;
   }
 
-  playCard(name, card) {
-    this.donePlayers.add(name);
-    this.hiddenWhites.push(card);
-    this.cardOwners[card.id] = name;
+  playCards(name, cards) {
+    for (let card of cards) {
+      this.cardsToPlayer[card.id] = name;
+    }
+    this.playerToCards[name] = cards;
+    this.hiddenWhites.push(cards);
   }
 
   allPlayed() {
-    return this.donePlayers.size === this.playerCount - 1;
+    return Object.keys(this.playerToCards).length === this.playerCount - 1;
   }
 
-  revealCard(cid) {
-    const revealed =  _.remove(this.hiddenWhites, c => c.id === cid);
+  shuffleWhites() {
+    this.hiddenWhites = _.shuffle(this.hiddenWhites);
+  }
+
+  revealNext() {
+    const revealed = this.hiddenWhites.splice(0, 1);
     if (revealed.length === 0) {
-      throw new Error("That card was not played.");
+      throw new Error("There are no more unrevealed cards");
     }
     this.revealedWhites.push(revealed[0]);
   }
@@ -60,17 +68,18 @@ class Round {
   }
 
   wasPlayed(cid) {
-    return cid in this.cardOwners;
+    return cid in this.cardsToPlayer;
   }
 
   selectWinner(cid) {
     this.winningCid = cid;
-    this.nextConnoisseurName = this.cardOwners[this.winningCid];
+    this.nextConnoisseurName = this.cardsToPlayer[this.winningCid];
     return this.nextConnoisseurName;
   }
 
   getWinner() {
-    return { winner: this.cardOwners[this.winningCid], cid: this.winningCid }
+    const winner = this.cardsToPlayer[this.winningCid];
+    return { winner: winner, cards: this.playerToCards[winner] }
   }
 }
 
