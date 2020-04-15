@@ -130,6 +130,7 @@ class Game extends GameInterface {
       throw new Error("A card not in your hand was played");
     }
 
+    player.sendHand();
     this.round.playCards(player.name, removed);
 
     if (this.round.allPlayed()) {

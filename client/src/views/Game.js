@@ -10,6 +10,7 @@ import Results from '../game_views/Results';
 import { getMePlayer, newPlayer } from '../models/player';
 import ScoreBoard, { newScoreBoard } from '../models/scoreboard';
 import BlackCard from '../models/blackcard';
+import { parseWhiteCardList } from '../models/whitecard';
 
 const LOBBY = "lobby";
 const SELECTION = "selection";
@@ -27,7 +28,7 @@ export default function Game(props) {
 
   const [scoreboard, setScoreBoard] = useState(new ScoreBoard());
   const [hand, setHand] = useState([]);
-  const [blackcard, setBlack] = useState(new BlackCard());
+  const [blackcard, setBlack] = useState(new BlackCard(0, "", 0));
   const [reveals, setReveals] = useState([]);
   const [winner, setWinner] = useState("");
 
@@ -39,7 +40,7 @@ export default function Game(props) {
     const reset = () => {
       setScoreBoard(new ScoreBoard());
       setHand([]);
-      setBlack(undefined);
+      setBlack(new BlackCard(0, "", 0));
       setReveals("");
       setWinner(undefined);
     }
@@ -67,7 +68,8 @@ export default function Game(props) {
     });
 
     props.socket.on('black', data => {
-
+      const { card } = data;
+      setBlack(new BlackCard(card.id, card.text, card.blanks));
     });
 
     props.socket.on('deck', data => {
@@ -75,7 +77,8 @@ export default function Game(props) {
     });
 
     props.socket.on('hand', data => {
-
+      const { hand } = data;
+      setHand(parseWhiteCardList(hand));
     });
 
     props.socket.on('revealed', data => {
@@ -118,7 +121,9 @@ export default function Game(props) {
       {[SELECTION, REVEAL, JUDGING, WINNER].includes(phase) &&
         <Table
           socket={props.socket}
-          players={players}/>
+          players={players}
+          blackcard={blackcard}
+          hand={hand}/>
       }
 
       <br/>

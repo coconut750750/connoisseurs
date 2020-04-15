@@ -1,0 +1,8 @@
+.hand {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /*height: 500px;*/
+    /*width: 700px;*/
+    margin: 0 auto;
+}

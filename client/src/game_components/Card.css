@@ -1,0 +1,21 @@
+.card.white {
+    cursor: pointer;
+    transform: translateY(0px);
+}
+
+.card.black {
+    color: white;
+    background-color: #000;
+}
+
+.card.white,
+.card.black {
+    width: 150px;
+    height: 200px;
+}
+
+.card.white.toggled {
+    box-shadow: 0px 2px 5px 0px black;
+    transform: translateY(-5px);
+    z-index: 10;
+}
