@@ -3,5 +3,5 @@ module.exports = {
   N_CARD_REQUIREMENT: 10,
 
   PLAYER_ROLE: "player",
-  CZAR_ROLE: "czar",
+  CONNOISSEUR_ROLE: "connoisseur",
 }

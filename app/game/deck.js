@@ -41,6 +41,14 @@ class Deck {
     return this.whiteCards.pop();
   }
 
+  drawWhiteCards(n) {
+    let cards = [];
+    for (let i = 0; i < n; i++) {
+      cards.push(this.drawWhiteCard());
+    }
+    return cards;
+  }
+
   drawBlackCard() {
     return this.blackCards.pop();
   }
@@ -55,6 +63,12 @@ class Deck {
 
   discardWhite(card) {
     this.whiteDiscard.push(card);
+  }
+
+  discardWhites(cards) {
+    for (let c of cards) {
+      this.discardWhite(c);
+    }
   }
 
   discardBlack(card) {

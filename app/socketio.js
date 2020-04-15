@@ -18,7 +18,7 @@ function socketio(socket, game, name, player) {
 
   });
 
-  socket.on('discardWhite', data => {
+  socket.on('replaceWhite', data => {
 
   });
 
@@ -32,6 +32,10 @@ function socketio(socket, game, name, player) {
 
   socket.on('selectWinner', data => {
 
+  });
+
+  socket.on('newRound', data => {
+    // game.roundStart
   });
 
   socket.on('seeResults', data => {

@@ -1,5 +1,5 @@
 var _ = require("lodash");
-const { PLAYER_ROLE, CZAR_ROLE, N_CARD_REQUIREMENT } = require("./const");
+const { PLAYER_ROLE, CONNOISSEUR_ROLE, N_CARD_REQUIREMENT } = require("./const");
 
 class Player {
   constructor(name, socket, isAdmin) {
@@ -14,16 +14,16 @@ class Player {
     this.hand = [];
   }
 
-  setCzar() {
-    this.role = CZAR_ROLE;
+  setConnoisseur() {
+    this.role = CONNOISSEUR_ROLE;
   }
 
   resetRole() {
     this.role = PLAYER_ROLE;
   }
 
-  isCzar() {
-    return this.role === CZAR_ROLE;
+  isConnoisseur() {
+    return this.role === CONNOISSEUR_ROLE;
   }
 
   addPoint() {
@@ -47,11 +47,15 @@ class Player {
   }
 
   removeCard(cid) {
-    _.remove(this.hand, c => c.id === cid)
+    return _.remove(this.hand, c => c.id === cid);
   }
 
   enoughCards() {
     return this.hand.length === N_CARD_REQUIREMENT;
+  }
+
+  needCards() {
+    return N_CARD_REQUIREMENT - this.hand.length;
   }
 
   activate(socket) {

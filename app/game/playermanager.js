@@ -67,24 +67,28 @@ class PlayerManager {
     return this.length() >= MIN_PLAYERS;
   }
 
-  resetCzars() {
+  resetConnoisseurs() {
     for (let p of Object.values(this.players)) {
       p.resetRole();
     }
   }
 
-  setInitialCzar() {
-    this.resetCzars();
+  setInitialConnoisseur() {
+    this.resetConnoisseurs();
     const rand = Math.floor(Math.random() * this.length());
     const randName = Object.keys(this.players)[rand];
-    this.players[randName].setCzar();
+    this.players[randName].setConnoisseur();
 
     this.notify();
+    return randName;
   }
 
-  setCzar(name) {
-    resetCzars();
-    this.players[name].setCzar();
+  setConnoisseur(name) {
+    if (this.players[name].isConnoisseur()) {
+      return;
+    }
+    resetConnoisseurs();
+    this.players[name].setConnoisseur();
 
     this.notify();
   }

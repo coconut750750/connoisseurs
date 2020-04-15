@@ -4,11 +4,11 @@ const WhiteCard = require('../whitecard');
 describe('player test', () => {
   test('player setting roles', () => {
     const player = new Player("player", undefined, false);
-    player.setCzar();
-    expect(player.isCzar()).toBeTruthy();
+    player.setConnoisseur();
+    expect(player.isConnoisseur()).toBeTruthy();
     
     player.resetRole();
-    expect(player.isCzar()).toBeFalsy();
+    expect(player.isConnoisseur()).toBeFalsy();
   });
 
   test('player adding cards', () => {
