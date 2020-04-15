@@ -66,6 +66,13 @@ class PlayerManager {
     }
   }
 
+  allDeactivated() {
+    for (var p of Object.values(this.players)) {
+      if (p.active) { return false; }
+    }
+    return true;
+  }
+
   enough() {
     return this.length() >= MIN_PLAYERS;
   }
