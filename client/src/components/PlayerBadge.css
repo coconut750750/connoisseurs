@@ -1,0 +1,45 @@
+.badge.connoisseur {
+    box-shadow: 0px 0px 4px 4px black;
+}
+
+.badge.player {
+
+}
+
+.badge .badge-x {
+    padding: 0;
+    border: none;
+    background-color: #00000000;
+    cursor: pointer;
+}
+
+.badge .badge-x span {
+    margin-left: 12px;
+    margin-right: 4px;
+}
+
+.badge .badge-x span:hover {
+  opacity: 1;
+}
+
+.badge .badge-x span:before,
+.badge .badge-x span:after {
+  position: absolute;
+  content: ' ';
+  height: 12px;
+  width: 1.2px;
+  background-color: #fff;
+}
+
+.badge.badge-light .badge-x span:before,
+.badge.badge-light .badge-x span:after {
+  background-color: #333;
+}
+
+.badge .badge-x span:before {
+  transform: rotate(45deg);
+}
+
+.badge .badge-x span:after {
+  transform: rotate(-45deg);
+}
