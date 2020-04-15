@@ -91,7 +91,7 @@ class Player {
   }
 
   sendHand() {
-    send('hand', { 'hand' : this.hand.map(c => c.json()) });
+    this.send('hand', { 'hand' : this.hand.map(c => c.json()) });
   }
 }
 

@@ -1,5 +1,5 @@
 const Player = require("./player");
-const { MIN_PLAYERS } = require("../const");
+const { MIN_PLAYERS } = require("./const");
 
 class PlayerManager {
   constructor(notify, onEmpty) {
@@ -25,6 +25,9 @@ class PlayerManager {
   }
 
   add(name, socket) {
+    if (this.exists(name)) {
+      return;
+    }
     this.players[name] = new Player(name, socket, Object.keys(this.players).length === 0);
     this.notify();
   }
@@ -74,7 +77,7 @@ class PlayerManager {
   }
 
   setConnoisseur(name) {
-    resetConnoisseurs();
+    this.resetConnoisseurs();
     this.players[name].setConnoisseur();
 
     this.notify();

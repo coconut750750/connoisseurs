@@ -2,7 +2,7 @@ const GameInterface = require("../game");
 const PlayerManager = require("./playermanager");
 const Round = require("./round");
 const Deck = require("./deck");
-const { MIN_PLAYERS, N_CARD_REQUIREMENT } = require("../const");
+const { MIN_PLAYERS, N_CARD_REQUIREMENT } = require("./const");
 
 const PHASES = ['lobby', 'selection', 'reveal', 'judging', 'winner', 'results'];
 // options
@@ -83,7 +83,7 @@ class Game extends GameInterface {
   refillHands() {
     const players = this.pmanager.getAll();
     for (var p of players) {
-      p.addCards(deck.drawWhiteCards(p.needCards()));
+      p.addCards(this.deck.drawWhiteCards(p.needCards()));
       p.sendHand();
     }
   }
@@ -94,7 +94,7 @@ class Game extends GameInterface {
   }
 
   roundStart() {
-    if (this.phase !== PHASES[0] || this.phase !== PHASES[4]) {
+    if (this.phase !== PHASES[0] && this.phase !== PHASES[4]) {
       throw new Error("You cannot start a new round right now");
     }
     this.phase = PHASES[1];
