@@ -34,6 +34,10 @@ class Round {
     return name in this.playerToCards;
   }
 
+  getPlayed(name) {
+    return this.playerToCards[name];
+  }
+
   playCards(name, cards) {
     for (let card of cards) {
       this.cardsToPlayer[card.id] = name;

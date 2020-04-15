@@ -103,6 +103,10 @@ function socketio(socket, game, name, player) {
     player.sendHand();
   });
 
+  socket.on('getPlayed', data => {
+    game.notifyPlayed(player);
+  });
+
   socket.on('getPoints', data => {
     game.reconnectSendPoints(player);
   });

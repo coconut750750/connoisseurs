@@ -132,6 +132,7 @@ class Game extends GameInterface {
 
     player.sendHand();
     this.round.playCards(player.name, removed);
+    this.notifyPlayed(player);
 
     if (this.round.allPlayed()) {
       this.beginReveal();
@@ -231,6 +232,12 @@ class Game extends GameInterface {
 
   notifyPhaseChange() {
     this.broadcast('phase', { phase: this.phase });
+  }
+
+  notifyPlayed(player) {
+    if (this.phase === PHASES[1] && this.round.alreadyPlayed(player.name)) {
+      player.send('played', { cards: this.round.getPlayed(player.name) });
+    }
   }
 
   notifyBlackCard() {

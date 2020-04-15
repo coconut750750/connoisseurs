@@ -28,6 +28,7 @@ export default function Game(props) {
 
   const [scoreboard, setScoreBoard] = useState(new ScoreBoard());
   const [hand, setHand] = useState([]);
+  const [played, setPlayed] = useState([]);
   const [blackcard, setBlack] = useState(new BlackCard(0, "", 0));
   const [reveals, setReveals] = useState([]);
   const [winner, setWinner] = useState("");
@@ -40,9 +41,17 @@ export default function Game(props) {
     const reset = () => {
       setScoreBoard(new ScoreBoard());
       setHand([]);
+      setPlayed([]);
       setBlack(new BlackCard(0, "", 0));
-      setReveals("");
-      setWinner(undefined);
+      setReveals([]);
+      setWinner("");
+    };
+
+    const resetRound = () => {
+      setPlayed([]);
+      setBlack(new BlackCard(0, "", 0));
+      setReveals([]);
+      setWinner("");
     }
 
     // this will result in a 'players' message from server
@@ -52,6 +61,8 @@ export default function Game(props) {
       setPhase(data.phase);
       if (data.phase === LOBBY) {
         reset();
+      } else if (data.phase === SELECTION) {
+        resetRound();
       }
     });
 
@@ -81,6 +92,11 @@ export default function Game(props) {
       setHand(parseWhiteCardList(hand));
     });
 
+    props.socket.on('played', data => {
+      const { cards } = data;
+      setPlayed(parseWhiteCardList(cards));
+    });
+
     props.socket.on('revealed', data => {
 
     });
@@ -101,6 +117,7 @@ export default function Game(props) {
     props.socket.emit('getRevealed', {});
     props.socket.emit('getWinner', {});
     props.socket.emit('getHand', {});
+    props.socket.emit('getPlayed', {});
     props.socket.emit('getPoints', {});
     props.socket.emit('getDeckInfo', {});
     props.socket.emit('getResults', {});
@@ -120,10 +137,18 @@ export default function Game(props) {
       }
       {[SELECTION, REVEAL, JUDGING, WINNER].includes(phase) &&
         <Table
+          selection={phase === SELECTION}
+          reveal={phase === REVEAL}
+          judging={phase === JUDGING}
+          winner={phase === WINNER}
+
           socket={props.socket}
           players={players}
+          me={me}
           blackcard={blackcard}
-          hand={hand}/>
+          hand={hand}
+          played={played}
+          revealed={reveals}/>
       }
 
       <br/>

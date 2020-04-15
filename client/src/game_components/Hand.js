@@ -14,7 +14,7 @@ export default function Hand(props) {
           card={c}
           color="white"
           toggled={props.selected.map(k => k.id).includes(c.id)}
-          onClick={ () => props.select(c) }/>
+          onClick={ () => {if (props.canSelect) props.select(c);} }/>
       );
     }
     return rendered;
@@ -25,9 +25,6 @@ export default function Hand(props) {
       <div className="hand">
         {renderCards()}
       </div>
-
-      <br/>
-      <button type="button" className="btn btn-light" onClick={ () => props.submit() }>Submit</button>
     </div>
   );
 }
