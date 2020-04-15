@@ -267,13 +267,13 @@ class Game extends GameInterface {
   }
 
   reconnectSendRevealed(player) {
-    if (this.started) {
+    if (this.phase === PHASES[3]) {
       player.send('revealed', { revealed: this.round.revealedWhites });
     }
   }
 
   reconnectSendWinner(player) {
-    if (this.started) {
+    if (this.phase === PHASES[4]) {
       const { winner, cards } = this.round.getWinner();
       if (cards === undefined) {
         return;

@@ -95,6 +95,10 @@ function socketio(socket, game, name, player) {
     game.reconnectSendRevealed(player);
   });
 
+  socket.on('getWinner', data => {
+    game.reconnectSendWinner(player);
+  })
+
   socket.on('getHand', data => {
     player.sendHand();
   });
