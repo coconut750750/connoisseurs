@@ -68,14 +68,20 @@ class Player {
     this.socket = undefined;
   }
 
-  json() {
+  infoJson() {
     return {
       name: this.name,
       isAdmin: this.isAdmin,
       active: this.active,
       role: this.role,
-      points: this.points,
     };
+  }
+
+  pointsJson() {
+    return {
+      name: this.name,
+      points: this.points,
+    }
   }
 
   send(event, data) {

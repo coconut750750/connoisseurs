@@ -17,6 +17,9 @@ class Deck {
     this.whiteCards = [];
     this.blackCards = [];
 
+    this.whiteDeck = [];
+    this.blackDeck = [];
+
     this.whiteDiscard = [];
     this.blackDiscard = [];
     this.load(sets);
@@ -33,12 +36,20 @@ class Deck {
       }
     }
 
-    this.whiteCards = _.shuffle(this.whiteCards);
-    this.blackCards = _.shuffle(this.blackCards);
+    this.whiteDeck = _.shuffle(this.whiteCards);
+    this.blackDeck = _.shuffle(this.blackCards);
+  }
+
+  getWhite(i) {
+    return this.whiteCards[i];
+  }
+
+  getBlack(i) {
+    return this.blackCards[i];
   }
 
   drawWhiteCard() {
-    return this.whiteCards.pop();
+    return this.whiteDeck.pop();
   }
 
   drawWhiteCards(n) {
@@ -50,15 +61,15 @@ class Deck {
   }
 
   drawBlackCard() {
-    return this.blackCards.pop();
+    return this.blackDeck.pop();
   }
 
   whiteCardsLeft() {
-    return this.whiteCards.length;
+    return this.whiteDeck.length;
   }
 
   blackCardsLeft() {
-    return this.blackCards.length;
+    return this.blackDeck.length;
   }
 
   discardWhite(card) {
@@ -84,8 +95,8 @@ class Deck {
   }
 
   reshuffle() {
-    this.whiteCards = _.shuffle(_.concat(this.whiteCards, this.whiteDiscard));
-    this.blackCards = _.shuffle(_.concat(this.blackCards, this.blackDiscard));
+    this.whiteDeck = _.shuffle(_.concat(this.whiteDeck, this.whiteDiscard));
+    this.blackDeck = _.shuffle(_.concat(this.blackDeck, this.blackDiscard));
 
     this.whiteDiscard = [];
     this.blackDiscard = [];

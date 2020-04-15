@@ -73,24 +73,16 @@ class PlayerManager {
     }
   }
 
-  setInitialConnoisseur() {
-    this.resetConnoisseurs();
-    const rand = Math.floor(Math.random() * this.length());
-    const randName = Object.keys(this.players)[rand];
-    this.players[randName].setConnoisseur();
-
-    this.notify();
-    return randName;
-  }
-
   setConnoisseur(name) {
-    if (this.players[name].isConnoisseur()) {
-      return;
-    }
     resetConnoisseurs();
     this.players[name].setConnoisseur();
 
     this.notify();
+  }
+
+  getRandomName() {
+    const rand = Math.floor(Math.random() * this.length());
+    return Object.keys(this.players)[rand];
   }
 }
 

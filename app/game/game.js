@@ -1,5 +1,6 @@
 const GameInterface = require("../game");
 const PlayerManager = require("./playermanager");
+const Round = require("./round");
 const Deck = require("./deck");
 const { MIN_PLAYERS, N_CARD_REQUIREMENT } = require("../const");
 
@@ -25,16 +26,10 @@ class Game extends GameInterface {
   reset() {
     this.started = false;
     this.phase = PHASES[0];
+    this.notifyPhaseChange();
 
     this.deck = undefined;
-
-    // round specific
-    this.currentBlackCard = undefined;
-    this.selectedWhites = [];
-    this.revealedWhites = [];
-    this.donePlayers = new Set();
-    this.cardOwners = {};
-    this.nextConnoisseurName = undefined;
+    this.round = undefined;
   }
 
   playerExists(name) {
@@ -65,19 +60,19 @@ class Game extends GameInterface {
     this.pmanager.deactivate(name);
   }
 
-  canStart() {
-    return this.phase === PHASES[0];
-  }
-
-  enoughPlayers() {
-    return this.pmanager.enough();
-  }
-
   start(options) {
+    if (this.phase !== PHASES[0]) {
+      throw new Error("Cannot start a new game outside of the lobby");
+    }
+    if (!this.pmanager.enough()) {
+      throw new Error("Not enough players have joined the game");
+    }
     this.started = true;
     this.deck = new Deck(options.sets);
 
-    this.nextConnoisseurName = this.pmanager.setInitialCzar();
+    this.round = new Round(this.pmanager.length());
+    this.round.nextConnoisseurName = this.pmanager.getRandomName();
+
     this.roundStart();
   }
 
@@ -94,46 +89,47 @@ class Game extends GameInterface {
   }
 
   revealBlackCard() {
-    this.currentBlackCard = this.deck.drawBlackCard();
+    this.round.setBlackCard(this.deck.drawBlackCard());
+    this.notifyBlackCard();
   }
 
   roundStart() {
+    if (this.phase !== PHASES[0] || this.phase !== PHASES[4]) {
+      throw new Error("You cannot start a new round right now");
+    }
     this.phase = PHASES[1];
     this.notifyPhaseChange();
 
-    this.pmanager.setConnoisseur(this.nextConnoisseurName);
-    this.deck.discardWhites(this.revealedWhites);
-    this.deck.discardBlack(this.currentBlackCard);
+    this.pmanager.setConnoisseur(this.round.nextConnoisseurName);
 
-    this.currentBlackCard = undefined;
-    this.selectedWhites = [];
-    this.revealedWhites = [];
-    this.donePlayers.clear();
-    this.cardOwners = {};
-    this.nextConnoisseurName = undefined;
+    this.round.discard(this.deck);
+    this.notifyDeckInfo();
+
+    this.round.reset();
 
     this.refillHands();
     this.revealBlackCard();
   }
 
   playCard(player, cid) {
-    if (player.isConnoisseur()) {
-      throw new Error("You cannot play white cards.")
+    if (this.phase !== PHASES[1]) {
+      throw new Error("You cannot play white cards right now");
     }
-    if (this.donePlayers.has(player.name)) {
-      throw new Error("You have already played a white card.")
+    if (player.isConnoisseur()) {
+      throw new Error("You cannot play white cards");
+    }
+    if (this.round.alreadyPlayed(player.name)) {
+      throw new Error("You have already played a white card");
     }
 
     const removed = player.removeCard(cid);
     if (removed.length === 0) {
-      throw new Error("That card is not in your hand.");
+      throw new Error("That card is not in your hand");
     }
 
-    this.donePlayers.add(player.name);
-    this.selectedWhites.push(removed[0]);
-    this.cardOwners[removed[0].id] = player.name;
+    this.round.playCard(player.name, removed[0]);
 
-    if (this.donePlayers.size === this.pmanager.length()) {
+    if (this.round.allPlayed()) {
       this.beginReveal();
     }
   }
@@ -148,29 +144,31 @@ class Game extends GameInterface {
   }
 
   revealCard(player, cid) {
+    if (this.phase !== PHASES[2]) {
+      throw new Error("You cannot reveal cards right now");
+    }
     if (!player.isConnoisseur()) {
-      throw new Error("You cannot reveal cards.");
+      throw new Error("You cannot reveal cards");
     }
-    const revealed =  _.remove(this.selectedWhites, c => c.id === cid);
-    if (revealed.length === 0) {
-      throw new Error("That card was not played.");
-    }
-    this.revealedWhites.push(revealed[0]);
-    // notify revealed card
+    
+    this.round.revealCard(cid);
+    this.notifyRevealed();
 
-    if (this.selectedWhite.length === 0) {
+    if (this.round.allRevealed()) {
       this.beginJudging();
     }
   }
 
   revealRest(player) {
+    if (this.phase !== PHASES[2]) {
+      throw new Error("You cannot reveal cards right now");
+    }
     if (!player.isConnoisseur()) {
-      throw new Error("You cannot reveal cards.");
+      throw new Error("You cannot reveal cards");
     }
 
-    this.revealedWhites = this.revealedWhites.concat(this.selectedWhites);
-    this.selectedWhites = [];
-    // notify revealed card
+    this.round.revealAll();
+    this.notifyRevealed();
 
     this.beginJudging();
   }
@@ -181,33 +179,45 @@ class Game extends GameInterface {
   }
 
   selectWinner(player, cid) {
+    if (this.phase !== PHASES[3]) {
+      throw new Error("You cannot select a winner right now");
+    }
     if (!player.isConnoisseur()) {
-      throw new Error("You cannot select a winner.");
+      throw new Error("You cannot select a winner");
+    }
+    if (!this.round.wasPlayed(cid)) {
+      throw new Error("That card was not played");
+
     }
 
-    if (!(cid in this.cardOwners)) {
-      throw new Error("That card was not played.");
-
-    }
-
-    this.nextConnoisseurName = this.cardOwners[cid];
-    this.pmanager.get(this.nextConnoisseurName).addPoint();
-    // notify winner
+    const winner = this.round.selectWinner(cid);
+    this.pmanager.get(winner).addPoint();
+    this.notifyWin();
+    this.notifyPoints();
     
     this.phase = PHASES[4];
     this.notifyPhaseChange();
   }
 
   endGame() {
+    if (this.phase !== PHASES[4]) {
+      throw new Error("You cannot end the game right now");
+    }
     this.started = false;
     this.phase = PHASES[5];
     this.notifyPhaseChange();
 
-    // notify results
+    this.notifyResults();
+  }
+
+  generateResults() {
+    return {
+      points: this.pmanager.getAll().map(p => p.pointsJson()),
+    };
   }
 
   getPlayerData() {
-    return { players: this.pmanager.getAll().map(p => p.json()) };
+    return { players: this.pmanager.getAll().map(p => p.infoJson()) };
   }
 
   notifyPlayerUpdate() {
@@ -218,8 +228,61 @@ class Game extends GameInterface {
     this.broadcast('phase', { phase: this.phase });
   }
 
+  notifyBlackCard() {
+    this.broadcast('black', { card: this.round.currentBlackCard.json() });
+  }
+
+  notifyDeckInfo() {
+    this.broadcast('deck', { deck: this.deck.json() });
+  }
+
   notifyRevealed() {
-    this.broadcast('revealed', { revealed: this.revealedWhites.map(c => c.json()) });
+    this.broadcast('revealed', { revealed: this.round.revealedWhites.map(c => c.json()) });
+  }
+
+  notifyWin() {
+    const { winner, cid } = this.round.getWinner();
+    if (cid === undefined) {
+      return;
+    }
+    const card = this.deck.getWhite(cid);
+    this.broadcast('win', { winner, card: card.json() });
+  }
+
+  notifyPoints() {
+    this.broadcast('points', { points: this.pmanager.getAll().map(p => p.pointsJson()) });
+  }
+
+  notifyResults() {
+    this.broadcast('results', this.generateResults());
+  }
+
+  reconnectSendBlack(player) {
+    if (this.started) {
+      player.send('black', { card: this.round.currentBlackCard.json() });
+    }
+  }
+
+  reconnectSendRevealed(player) {
+    if (this.started) {
+      player.send('revealed', { revealed: this.round.revealedWhites.map(c => c.json()) });
+    }
+  }
+
+  reconnectSendPoints(player) {
+    if (this.started) {
+      player.send('points', { points: this.pmanager.getAll().map(p => p.pointsJson()) });
+    }
+  }
+
+  reconnectSendDeckInfo(player) {
+    if (this.started) {
+      player.send('deck', { deck: this.deck.json() });
+    }
+  }
+
+  reconnectSendResults(player) {
+    player.send('results', this.generateResults());
   }
 
   delete() {
