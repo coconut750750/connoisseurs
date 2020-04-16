@@ -86,7 +86,7 @@ function App() {
   return (
     <div className="App">
       <br/>
-        <h3>Connoisseur</h3>
+        <h3>Connoisseurs</h3>
       <hr/>
 
       {views[viewState]}

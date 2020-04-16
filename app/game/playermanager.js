@@ -77,14 +77,19 @@ class PlayerManager {
     return this.length() >= MIN_PLAYERS;
   }
 
-  resetConnoisseurs() {
+  _resetConnoisseurs() {
     for (let p of Object.values(this.players)) {
       p.resetRole();
     }
   }
 
+  resetConnoisseurs() {
+    this._resetConnoisseurs()
+    this.notify();
+  }
+
   setConnoisseur(name) {
-    this.resetConnoisseurs();
+    this._resetConnoisseurs();
     this.players[name].setConnoisseur();
 
     this.notify();

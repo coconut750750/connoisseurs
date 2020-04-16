@@ -8,9 +8,10 @@ import Table from '../game_views/Table';
 import Results from '../game_views/Results';
 
 import { getMePlayer, newPlayer } from '../models/player';
-import ScoreBoard, { newScoreBoard } from '../models/scoreboard';
+import ScoreBoard from '../models/scoreboard';
 import BlackCard from '../models/blackcard';
 import { parseWhiteCardList } from '../models/whitecard';
+import ResultsModel from '../models/results';
 
 const LOBBY = "lobby";
 const SELECTION = "selection";
@@ -33,6 +34,7 @@ export default function Game(props) {
   const [reveals, setReveals] = useState([]);
   const [winner, setWinner] = useState("");
   const [winCards, setWinCards] = useState([]);
+  const [results, setResults] = useState(new ResultsModel());
 
   const debounceDisappear = () => setMessage("");
   const disappearCallback = useCallback(debounce(debounceDisappear, 5000), []);
@@ -49,6 +51,7 @@ export default function Game(props) {
 
     const reset = () => {
       setScoreBoard(new ScoreBoard());
+      setResults(new ResultsModel());
       setHand([]);
       resetRound();
     };
@@ -112,10 +115,13 @@ export default function Game(props) {
     });
 
     props.socket.on('points', data => {
-      setScoreBoard(newScoreBoard(data.points));
+      const { points } = data;
+      setScoreBoard(new ScoreBoard(points));
     });
 
     props.socket.on('results', data => {
+      const { points } = data;
+      setResults(new ResultsModel(new ScoreBoard(points)));
     });
 
     // get data if disconnected
@@ -156,10 +162,11 @@ export default function Game(props) {
           winCards={winCards}
           winner={winner}/>
       }
-      {
-        // phase === RESULTS &&
-        // <Results
-        //   socket={props.socket}/>
+      {phase === RESULTS &&
+        <Results
+          socket={props.socket}
+          players={players}
+          results={results}/>
       }
 
       <br/>

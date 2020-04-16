@@ -1,11 +1,10 @@
 export default class ScoreBoard {
-  constructor() {
+  constructor(json) {
     this.points = {};
-  }
-
-  load(json) {
-    for (let player of json) {
-      this.points[player.name] = player.points
+    if (json !== undefined) {
+      for (let player of json) {
+        this.points[player.name] = player.points
+      }
     }
   }
 
@@ -15,10 +14,4 @@ export default class ScoreBoard {
     }
     return this.points[name];
   }
-}
-
-export function newScoreBoard(json) {
-  const scoreboard = new ScoreBoard();
-  scoreboard.load(json);
-  return scoreboard;
 }

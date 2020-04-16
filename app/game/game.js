@@ -210,10 +210,11 @@ class Game extends GameInterface {
       throw new Error("You cannot end the game right now");
     }
     this.started = false;
+    this.notifyResults();
+    this.pmanager.resetConnoisseurs();
+
     this.phase = PHASES[5];
     this.notifyPhaseChange();
-
-    this.notifyResults();
   }
 
   generateResults() {
