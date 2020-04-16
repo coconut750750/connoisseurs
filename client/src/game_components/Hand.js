@@ -12,7 +12,8 @@ export default function Hand(props) {
         <Card
           key={c.id}
           card={c}
-          color="white"
+          color={"white"}
+          active={props.active}
           toggled={props.selected.map(k => k.id).includes(c.id)}
           onClick={ () => {if (props.canSelect) props.select(c);} }/>
       );

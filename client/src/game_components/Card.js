@@ -4,7 +4,7 @@ import "./Card.css"
 
 export default function Card(props) {
   const getClass = () => {
-    return `card ${props.color} ${props.toggled ? "toggled" : ""} ${props.height}`;
+    return `card ${props.color} ${props.active ? "active" : ""} ${props.toggled ? "toggled" : ""} ${props.height}`;
   }
 
   return (

@@ -1,6 +1,9 @@
 .card.white {
-    cursor: pointer;
     transform: translateY(0px);
+}
+
+.card.active {
+    cursor: pointer;
 }
 
 .card.black {

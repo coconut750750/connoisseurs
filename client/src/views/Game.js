@@ -137,11 +137,7 @@ export default function Game(props) {
       }
       {[SELECTION, REVEAL, JUDGING, WINNER].includes(phase) &&
         <Table
-          selection={phase === SELECTION}
-          reveal={phase === REVEAL}
-          judging={phase === JUDGING}
-          winner={phase === WINNER}
-
+          phase={phase}
           socket={props.socket}
           players={players}
           me={me}

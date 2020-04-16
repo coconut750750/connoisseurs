@@ -7,6 +7,11 @@ import CardStack from '../game_components/CardStack';
 
 import "./Table.css";
 
+const SELECTION = "selection";
+const REVEAL = "reveal";
+const JUDGING = "judging";
+const WINNER = "winner";
+
 export default function Table(props) {
   const [selected, setSelected] = useState([]);
 
@@ -22,33 +27,33 @@ export default function Table(props) {
     return props.played.length === 0 && !props.me.isConnoisseur();
   };
 
-  const submit = (selected) => {
+  const playWhite = (selected) => {
     props.socket.emit('playWhite', { cids: selected.map(k => k.id) });
     setSelected([]);
   };
 
-  const renderCardStackList = (stacks) => {
-    return (
-      <div>
-        {stacks.map(stack => (
-          <CardStack
-            cards={stack}/>
-        ))}
-      </div>
-    );
-  }
-
-  const renderSelection = (selected, played) => {
-    if (played.length === 0) {
-      return <CardStack cards={selected}/>;
-    } else {
-      return <CardStack cards={played}/>;
+  const renderAction = (phase, me) => {
+    if (phase === SELECTION) {
+      return (
+        <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => playWhite(selected) }>Submit</button>
+      );
     }
   };
 
-  const renderReveal = (revealed) => {
-    // return renderCardStackList(revealed);
-  }
+  const renderWhiteBoard = (phase, selected, played, revealed) => {
+    if (phase === SELECTION) {
+      if (played.length === 0) {
+        return <CardStack cards={selected}/>;
+      } else {
+        return <CardStack cards={played}/>;
+      }
+    } else if (phase === REVEAL) {
+      return revealed.map(stack => (
+        <CardStack
+          cards={stack}/>
+      ));
+    }
+  };
 
   return (
     <div>
@@ -61,21 +66,19 @@ export default function Table(props) {
 
       <Hand
         hand={props.hand}
+        active={!props.me.isConnoisseur()}
         canSelect={canSelect()}
         selected={selected}
         select={ (card) => updateSelected(card, selected)}/>
       <br/>
-      {props.selection &&
-      <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => submit(selected) }>Submit</button>
-      }
+      {renderAction(props.phase, props.me)}
 
       <div className="board">
         <Card
           card={props.blackcard}
           color={"black"}/>
 
-        {props.selection && renderSelection(selected, props.played)}
-        {props.reveal && renderReveal(props.revealed)}
+        {renderWhiteBoard(props.phase, selected, props.played, props.revealed)}
       </div>
       <br/>
 
