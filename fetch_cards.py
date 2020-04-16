@@ -1,5 +1,6 @@
 import requests
 import json
+import html
 
 def fetch_setnames():
     url = "https://www.crhallberg.com/cah/data/order.json"
@@ -8,7 +9,7 @@ def fetch_setnames():
     return official_sets
 
 def clean(text):
-    return text.replace("_", "___").replace("&reg;", "®").replace("&trade;", "™")
+    return html.unescape(text.replace("_", "___").replace("<br>", "\n"))
 
 def clean_cards(cards):
     for i, bc in enumerate(cards['blackCards']):
