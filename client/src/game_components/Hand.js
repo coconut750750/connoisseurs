@@ -7,9 +7,10 @@ import "./Hand.css";
 export default function Hand(props) {
   const renderCards = () => {
     let rendered = [];
-    for (let c of props.hand) {
+    for (let [index, c] of props.hand.entries()) {
       rendered.push(
         <Card
+          style={{ left: -80 * index }}
           key={c.id}
           card={c}
           color={"white"}

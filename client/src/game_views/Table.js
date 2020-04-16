@@ -128,18 +128,6 @@ export default function Table(props) {
         scoreboard={props.scoreboard}/>
       <br/>
 
-      <Hand
-        hand={props.hand}
-        active={!props.me.isConnoisseur()}
-        canSelect={canSelect()}
-        selected={selected}
-        select={ (card) => updateSelected(card, selected)}/>
-      <br/>
-
-      {renderAction(selectedWinner)}
-      <br/>
-      <br/>
-
       <div className="board">
         <Card
           card={props.blackcard}
@@ -147,6 +135,18 @@ export default function Table(props) {
 
         {renderWhiteBoard(selected, selectedWinner)}
       </div>
+      <br/>
+
+      {renderAction(selectedWinner)}
+      <br/>
+      <br/>
+
+      <Hand
+        hand={props.hand}
+        active={!props.me.isConnoisseur()}
+        canSelect={canSelect()}
+        selected={selected}
+        select={ (card) => updateSelected(card, selected)}/>
       <br/>
 
     </div>

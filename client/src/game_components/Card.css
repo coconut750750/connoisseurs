@@ -7,12 +7,19 @@
     margin: 0;
 }
 
-.card.white {
-    transform: translateY(0px);
+.card-hover {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    z-index: 10;
 }
 
-.card.active {
+.card-hover.active {
     cursor: pointer;
+}
+
+.card-hover.active:hover ~ .card {
+    transform: translateY(-50px);
 }
 
 .card.black {
@@ -20,19 +27,23 @@
     background-color: #000;
 }
 
-.card.white,
-.card.black {
+.hovercard {
+    position: relative;
     width: 150px;
     height: 200px;
 }
 
-.card.white.toggled {
-    box-shadow: 0px 2px 5px 0px black;
-    transform: translateY(-5px);
-    z-index: 10;
+.card.white,
+.card.black {
+    width: 100%;
+    height: 100%;
 }
 
-.card.short {
+.card.white.toggled {
+    box-shadow: 0px 2px 5px 0px black;
+}
+
+.hovercard.short {
     height: auto;
     border-bottom: none;
 }
