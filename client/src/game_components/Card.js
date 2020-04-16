@@ -5,26 +5,15 @@ import "./Card.css"
 export default function Card(props) {
   const getDisplayClass = () => {
     const toggled = props.toggled ? "toggled" : "";
-    return `card ${props.color} ${toggled}`;
-  }
-
-  const getInteractClass = () => {
     const active = props.active ? "active" : "";
-    return `card-hover ${active}`;
-  }
-
-  const getOuterClass = () => {
-    const height = props.height !== undefined ? props.height : "";
-    return `hovercard ${height}`;
+    const heightClass = props.short ? "short" : "";
+    return `card ${props.color} ${toggled} ${active} ${heightClass}`;
   }
 
   return (
-    <div className={getOuterClass()} style={props.style}>
-      <div className={getInteractClass()} onClick={ () => { if (props.onClick !== undefined && props.active) props.onClick(props.card); } }/>
-      <div className={getDisplayClass()}>
-        <div className="card-body">
-          <h6 className="text-left">{props.card !== undefined ? props.card.text : ""}</h6>
-        </div>
+    <div className={getDisplayClass()}  onClick={ () => { if (props.onClick !== undefined) props.onClick(props.card); } }>
+      <div className="card-body">
+        <h6 className="text-left">{props.card !== undefined ? props.card.text : ""}</h6>
       </div>
     </div>
   );

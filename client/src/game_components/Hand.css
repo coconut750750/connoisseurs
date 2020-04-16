@@ -1,7 +1,31 @@
 .hand {
     display: inline-flex;
     justify-content: flex-start;
-    /*height: 500px;*/
-    /*width: 700px;*/
     margin: 0 auto;
+}
+
+.hovercard {
+    position: relative;
+    width: 150px;
+    height: 200px;
+}
+
+.card-hover.active:hover ~ .card {
+    transform: translateY(-50px);
+    z-index: 1;
+}
+
+.card-hover.active {
+    cursor: pointer;
+}
+
+.card-hover {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    z-index: 2;
+}
+
+.hovercard:last-of-type .card-hover {
+    width: 100%;
 }

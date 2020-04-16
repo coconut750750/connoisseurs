@@ -16,7 +16,7 @@ export default function CardStack(props) {
             card={c}
             color={"white"}
             active={props.active}
-            height={index !== props.cards.length - 1 ? "short" : ""}
+            short={index !== props.cards.length - 1}
             onClick={props.onClick}/>
       )}
     </div>

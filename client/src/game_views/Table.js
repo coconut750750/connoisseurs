@@ -143,7 +143,6 @@ export default function Table(props) {
 
       <Hand
         hand={props.hand}
-        active={!props.me.isConnoisseur()}
         canSelect={canSelect()}
         selected={selected}
         select={ (card) => updateSelected(card, selected)}/>
