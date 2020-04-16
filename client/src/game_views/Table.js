@@ -26,8 +26,12 @@ export default function Table(props) {
     }
   };
 
+  const alreadyPlayed = () => {
+    return props.played.length !== 0;
+  };
+
   const canSelect = () => {
-    return props.played.length === 0 && !props.me.isConnoisseur();
+    return !alreadyPlayed() && !props.me.isConnoisseur();
   };
 
   const playWhite = (selected) => {
@@ -35,12 +39,36 @@ export default function Table(props) {
     setSelected([]);
   };
 
-  const renderAction = (phase, me, selectedWinner) => {
-    if (phase === SELECTION) {
+  const renderHeader = () => {
+    if (props.phase === SELECTION) {
+      if (canSelect()) {
+        return <h6>Make your selection</h6>;
+      } else {
+        return <h6>Waiting for other players to choose...</h6>;
+      }
+    } else if (props.phase === REVEAL) {
+      if (props.me.isConnoisseur()) {
+        return <h6>Revealing the white cards</h6>;
+      } else {
+        return <h6>Waiting for the connoisseur to reveal white cards...</h6>;
+      }
+    } else if (props.phase === JUDGING) {
+      if (props.me.isConnoisseur()) {
+        return <h6>Choose a winner</h6>;
+      } else {
+        return <h6>Waiting for the connoisseur to choose a winner...</h6>;
+      }
+    } else if (props.phase === WINNER) {
+      return <h6>{`${props.winner} wins!`}</h6>;
+    }
+  };
+
+  const renderAction = (selectedWinner) => {
+    if (props.phase === SELECTION) {
       return (
         <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => playWhite(selected) }>Submit</button>
       );
-    } else if (phase === REVEAL) {
+    } else if (props.phase === REVEAL) {
       return [
         <button type="button" className="btn btn-light"
           disabled={!props.me.isConnoisseur()}
@@ -49,13 +77,13 @@ export default function Table(props) {
           disabled={!props.me.isConnoisseur()}
           onClick={ () => props.socket.emit('revealWhites', {}) }>Reveal All</button>,
       ];
-    } else if (phase === JUDGING) {
+    } else if (props.phase === JUDGING) {
       return (
         <button type="button" className="btn btn-light"
           disabled={!props.me.isConnoisseur() || selectedWinner.id === -1}
           onClick={ () => props.socket.emit('selectWinner', { cid: selectedWinner.id }) }>Select Winner</button>
       );
-    } else if (phase === WINNER) {
+    } else if (props.phase === WINNER) {
       return (
         <button type="button" className="btn btn-light"
           onClick={ () => props.socket.emit('startRound', {}) }>Next Round</button>
@@ -63,34 +91,37 @@ export default function Table(props) {
     }
   };
 
-  const renderWhiteBoard = (phase, selected, played, reveals, selectedWinner, winCards) => {
-    if (phase === SELECTION) {
-      if (played.length === 0) {
+  const renderWhiteBoard = (selected, selectedWinner) => {
+    if (props.phase === SELECTION) {
+      if (!alreadyPlayed()) {
         return <CardStack cards={selected}/>;
       } else {
-        return <CardStack cards={played}/>;
+        return <CardStack cards={props.played}/>;
       }
-    } else if (phase === REVEAL) {
-      return reveals.map(stack => (
+    } else if (props.phase === REVEAL) {
+      return props.reveals.map(stack => (
         <CardStack
           cards={stack}/>
       ));
-    } else if (phase === JUDGING) {
-      return reveals.map(stack => (
+    } else if (props.phase === JUDGING) {
+      return props.reveals.map(stack => (
         <CardStack
           highlighted={stack.map(k => k.id).includes(selectedWinner.id)}
           active={props.me.isConnoisseur()}
           onClick={(card) => setSelectedWinner(card)}
           cards={stack}/>
       ));
-    } else if (phase === WINNER) {
-      return <CardStack cards={winCards}/>;
+    } else if (props.phase === WINNER) {
+      return <CardStack cards={props.winCards}/>;
     }
   };
 
   return (
     <div>
       <h5>Table</h5>
+      <br/>
+
+      {renderHeader(props.phase, props.played.length === 0, props.me.isConnoisseur(), props.winner)}
       <br/>
       
       <PlayerList
@@ -105,7 +136,7 @@ export default function Table(props) {
         select={ (card) => updateSelected(card, selected)}/>
       <br/>
 
-      {renderAction(props.phase, props.me, selectedWinner)}
+      {renderAction(selectedWinner)}
       <br/>
       <br/>
 
@@ -114,7 +145,7 @@ export default function Table(props) {
           card={props.blackcard}
           color={"black"}/>
 
-        {renderWhiteBoard(props.phase, selected, props.played, props.reveals, selectedWinner, props.winCards)}
+        {renderWhiteBoard(selected, selectedWinner)}
       </div>
       <br/>
 

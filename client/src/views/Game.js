@@ -152,7 +152,8 @@ export default function Game(props) {
           hand={hand}
           played={played}
           reveals={reveals}
-          winCards={winCards}/>
+          winCards={winCards}
+          winner={winner}/>
       }
 
       <br/>
