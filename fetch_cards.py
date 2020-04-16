@@ -7,6 +7,15 @@ def fetch_setnames():
     official_sets = {k: v for k, v in response.items() if k != 'order' and v['name'][0] != '['}
     return official_sets
 
+def clean(text):
+    return text.replace("_", "___").replace("&reg;", "®").replace("&trade;", "™")
+
+def clean_cards(cards):
+    for i, bc in enumerate(cards['blackCards']):
+        cards['blackCards'][i]['text'] = clean(cards['blackCards'][i]['text'])
+    for i, text in enumerate(cards['whiteCards']):
+        cards['whiteCards'][i] = clean(text)
+
 def fetch_set(name, shortname):
     url = "https://www.crhallberg.com/cah/output.php"
     data = {"decks[]": shortname, "type": "JSON"}
@@ -15,8 +24,9 @@ def fetch_set(name, shortname):
     cards = {}
     cards['blackCards'] = response['blackCards']
     cards['whiteCards'] = response['whiteCards']
+    clean_cards(cards)
     with open(f'./app/game/sets/{name}', 'w') as f:
-        json.dump(cards, f)
+        json.dump(cards, f, ensure_ascii=False)
 
     return len(response['blackCards']), len(response['whiteCards'])
 

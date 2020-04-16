@@ -55,7 +55,7 @@ function socketio(socket, game, name, player) {
   socket.on('selectWinner', data => {
     try {
       const { cid } = data;
-      game.selectWinner(cid);
+      game.selectWinner(player, cid);
     } catch (err) {
       socket.emit('message', { message: err.message });
     }

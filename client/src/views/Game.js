@@ -32,27 +32,26 @@ export default function Game(props) {
   const [blackcard, setBlack] = useState(new BlackCard(0, "", 0));
   const [reveals, setReveals] = useState([]);
   const [winner, setWinner] = useState("");
+  const [winCards, setWinCards] = useState([]);
 
   const debounceDisappear = () => setMessage("");
   const disappearCallback = useCallback(debounce(debounceDisappear, 5000), []);
 
   // on mount
   useEffect(() => {
-    const reset = () => {
-      setScoreBoard(new ScoreBoard());
-      setHand([]);
-      setPlayed([]);
-      setBlack(new BlackCard(0, "", 0));
-      setReveals([]);
-      setWinner("");
-    };
-
     const resetRound = () => {
       setPlayed([]);
       setBlack(new BlackCard(0, "", 0));
       setReveals([]);
       setWinner("");
+      setWinCards([]);
     }
+
+    const reset = () => {
+      setScoreBoard(new ScoreBoard());
+      setHand([]);
+      resetRound();
+    };
 
     // this will result in a 'players' message from server
     props.socket.emit('joinGame', { name: props.name, gameCode: props.gameCode });
@@ -98,10 +97,18 @@ export default function Game(props) {
     });
 
     props.socket.on('revealed', data => {
-
+      const { revealed } = data;
+      let reveals = [];
+      for (let stack of revealed) {
+        reveals.push(parseWhiteCardList(stack));
+      }
+      setReveals(reveals);
     });
 
     props.socket.on('win', data => {
+      const { winner, cards } = data;
+      setWinner(winner);
+      setWinCards(parseWhiteCardList(cards));
     });
 
     props.socket.on('points', data => {
@@ -144,7 +151,8 @@ export default function Game(props) {
           blackcard={blackcard}
           hand={hand}
           played={played}
-          revealed={reveals}/>
+          reveals={reveals}
+          winCards={winCards}/>
       }
 
       <br/>

@@ -15,7 +15,7 @@ export default function Hand(props) {
           color={"white"}
           active={props.active}
           toggled={props.selected.map(k => k.id).includes(c.id)}
-          onClick={ () => {if (props.canSelect) props.select(c);} }/>
+          onClick={ (card) => { if (props.canSelect) props.select(card); } }/>
       );
     }
     return rendered;

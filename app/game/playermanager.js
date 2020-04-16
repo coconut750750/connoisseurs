@@ -60,7 +60,7 @@ class PlayerManager {
       this.players[name].deactivate();
     }
     if (this.allDeactivated()) {
-      this.endGame();
+      this.onEmpty();
     } else {
       this.notify();
     }

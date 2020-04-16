@@ -1,3 +1,12 @@
+.card .card-body {
+    padding: 0.5rem;
+}
+
+.card h6 {
+    font-size: 0.9em;
+    margin: 0;
+}
+
 .card.white {
     transform: translateY(0px);
 }

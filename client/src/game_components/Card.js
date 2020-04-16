@@ -4,13 +4,16 @@ import "./Card.css"
 
 export default function Card(props) {
   const getClass = () => {
-    return `card ${props.color} ${props.active ? "active" : ""} ${props.toggled ? "toggled" : ""} ${props.height}`;
+    const active = props.active ? "active" : "";
+    const toggled = props.toggled ? "toggled" : "";
+    const height = props.height !== undefined ? props.height : "";
+    return `card ${props.color} ${active} ${toggled} ${height}`;
   }
 
   return (
-    <div className={getClass()} onClick={ () => { if (props.onClick !== undefined) props.onClick(); } }>
+    <div className={getClass()} onClick={ () => { if (props.onClick !== undefined && props.active) props.onClick(props.card); } }>
       <div className="card-body">
-        <h6 className="card-title">{props.card !== undefined ? props.card.text : ""}</h6>
+        <h6 className="text-left">{props.card !== undefined ? props.card.text : ""}</h6>
       </div>
     </div>
   );
