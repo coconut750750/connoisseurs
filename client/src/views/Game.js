@@ -148,12 +148,18 @@ export default function Game(props) {
           socket={props.socket}
           players={players}
           me={me}
+          scoreboard={scoreboard}
           blackcard={blackcard}
           hand={hand}
           played={played}
           reveals={reveals}
           winCards={winCards}
           winner={winner}/>
+      }
+      {
+        // phase === RESULTS &&
+        // <Results
+        //   socket={props.socket}/>
       }
 
       <br/>

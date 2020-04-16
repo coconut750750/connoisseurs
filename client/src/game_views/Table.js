@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import PlayerList from '../components/PlayerList';
+import ScoreBoard from '../game_components/ScoreBoard';
 import Hand from '../game_components/Hand';
 import Card from '../game_components/Card';
 import CardStack from '../game_components/CardStack';
@@ -84,10 +84,12 @@ export default function Table(props) {
           onClick={ () => props.socket.emit('selectWinner', { cid: selectedWinner.id }) }>Select Winner</button>
       );
     } else if (props.phase === WINNER) {
-      return (
+      return [
         <button type="button" className="btn btn-light"
-          onClick={ () => props.socket.emit('startRound', {}) }>Next Round</button>
-      );
+          onClick={ () => props.socket.emit('startRound', {}) }>Next Round</button>,
+        <button type="button" className="btn btn-light"
+          onClick={ () => props.socket.emit('seeResults', {}) }>See Results</button>,
+      ];
     }
   };
 
@@ -118,14 +120,12 @@ export default function Table(props) {
 
   return (
     <div>
-      <h5>Table</h5>
-      <br/>
-
       {renderHeader(props.phase, props.played.length === 0, props.me.isConnoisseur(), props.winner)}
       <br/>
       
-      <PlayerList
-        players={props.players}/>
+      <ScoreBoard
+        players={props.players}
+        scoreboard={props.scoreboard}/>
       <br/>
 
       <Hand
