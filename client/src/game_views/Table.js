@@ -4,6 +4,7 @@ import ScoreBoard from '../game_components/ScoreBoard';
 import Hand from '../game_components/Hand';
 import Card from '../game_components/Card';
 import CardStack from '../game_components/CardStack';
+import DeckInfo from '../game_components/DeckInfo';
 
 import WhiteCard from '../models/whitecard';
 
@@ -127,6 +128,15 @@ export default function Table(props) {
         players={props.players}
         scoreboard={props.scoreboard}/>
       <br/>
+
+      <div className="row">
+        <div className="col-9"></div>
+        <div className="col-3">
+          <DeckInfo
+            deckinfo={props.deckinfo}/>
+          <br/>
+        </div>
+      </div>
 
       <div className="board">
         <Card

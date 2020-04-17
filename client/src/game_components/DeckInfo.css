@@ -1,0 +1,28 @@
+.deck-info {
+    display: flex;
+    height: 1.25em;
+    justify-content: space-between;
+}
+
+.deck-info .item {
+    display: flex;
+}
+
+.deck-info .item .card-icon {
+    display: inline-block;
+    border: 1.2px solid rgba(0,0,0,.125);
+    border-radius: .15rem;
+    line-height: 1.25;
+    min-height: 1.25em;
+    min-width: 0.8em;
+    margin-right: 0.5em;
+
+}
+
+.deck-info .item .card-icon.white {
+    background-color: white;
+}
+
+.deck-info .item .card-icon.black {
+    background-color: black;
+}

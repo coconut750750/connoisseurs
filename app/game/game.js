@@ -111,12 +111,12 @@ class Game extends GameInterface {
     this.pmanager.setConnoisseur(this.round.nextConnoisseurName);
 
     this.round.discard(this.deck);
-    this.notifyDeckInfo();
-
     this.round.reset();
 
     this.refillHands();
     this.revealBlackCard();
+    
+    this.notifyDeckInfo();
   }
 
   playCards(player, cids) {
