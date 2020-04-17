@@ -12,7 +12,7 @@ import ScoreBoard from '../models/scoreboard';
 import BlackCard from '../models/blackcard';
 import { parseWhiteCardList } from '../models/whitecard';
 import ResultsModel from '../models/results';
-import DeckInfoModel from '../models/deckinfo';
+import DeckInfo from '../models/deckinfo';
 
 const LOBBY = "lobby";
 const SELECTION = "selection";
@@ -32,7 +32,7 @@ export default function Game(props) {
   const [hand, setHand] = useState([]);
   const [played, setPlayed] = useState([]);
   const [blackcard, setBlack] = useState(new BlackCard(0, "", 0));
-  const [deckinfo, setDeckInfo] = useState(new DeckInfoModel());
+  const [deckinfo, setDeckInfo] = useState(new DeckInfo());
   const [reveals, setReveals] = useState([]);
   const [winner, setWinner] = useState("");
   const [winCards, setWinCards] = useState([]);
@@ -56,6 +56,7 @@ export default function Game(props) {
       setResults(new ResultsModel());
       setHand([]);
       resetRound();
+      setDeckInfo(new DeckInfo());
     };
 
     // this will result in a 'players' message from server
@@ -89,7 +90,7 @@ export default function Game(props) {
 
     props.socket.on('deck', data => {
       const { deck } = data;
-      setDeckInfo(new DeckInfoModel(deck));
+      setDeckInfo(new DeckInfo(deck));
     });
 
     props.socket.on('hand', data => {

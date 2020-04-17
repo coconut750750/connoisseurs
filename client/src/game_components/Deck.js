@@ -1,10 +1,11 @@
 import React from 'react';
 
-import "./DeckInfo.css";
+import "./Deck.css";
 
-export default function DeckInfo(props) {
+export default function Deck(props) {
   return (
-    <div className="deck-info">
+    <div className="deck">
+      <button type="button" className="btn btn-light btn-sm" onClick={ () => props.shuffle() }>Shuffle</button>
       <div className="item">
         <span className="card-icon white">{"  "}</span><h6>{props.deckinfo.whitesLeft}</h6>
       </div>

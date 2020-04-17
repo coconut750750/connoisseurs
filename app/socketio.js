@@ -18,6 +18,14 @@ function socketio(socket, game, name, player) {
     }
   });
 
+  socket.on('shuffle', data => {
+    try {
+      game.shuffleDeck();
+    } catch (err) {
+      socket.emit('message', { message: err.message });
+    }
+  });
+
   socket.on('playWhite', data => {
     try {
       const { cids } = data;

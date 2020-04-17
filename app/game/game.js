@@ -88,6 +88,14 @@ class Game extends GameInterface {
     return this.started;
   }
 
+  shuffleDeck() {
+    if (!this.started) {
+      throw new Error("You cannot shuffle the deck outside of the game");
+    }
+    this.deck.reshuffle();
+    this.notifyDeckInfo();
+  }
+
   refillHands() {
     const players = this.pmanager.getAll();
     for (var p of players) {
@@ -115,7 +123,7 @@ class Game extends GameInterface {
 
     this.refillHands();
     this.revealBlackCard();
-    
+
     this.notifyDeckInfo();
   }
 
