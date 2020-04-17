@@ -135,19 +135,21 @@ export default function Table(props) {
 
         {renderWhiteBoard(selected, selectedWinner)}
       </div>
-      <br/>
 
-      {renderAction(selectedWinner)}
-      <br/>
-      <br/>
+      <div className="below-board">
+        <br/>
 
-      <Hand
-        hand={props.hand}
-        canSelect={canSelect()}
-        selected={selected}
-        select={ (card) => updateSelected(card, selected)}/>
-      <br/>
+        {renderAction(selectedWinner)}
+        <br/>
+        <br/>
 
+        <Hand
+          hand={props.hand}
+          canSelect={canSelect()}
+          selected={selected}
+          select={ (card) => updateSelected(card, selected)}/>
+        <br/>
+      </div>
     </div>
   );
 }

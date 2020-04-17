@@ -62,6 +62,10 @@ class Player {
     return N_CARD_REQUIREMENT - this.hand.length;
   }
 
+  emptyHand() {
+    this.hand = [];
+  }
+
   activate(socket) {
     this.active = true;
     this.socket = socket;

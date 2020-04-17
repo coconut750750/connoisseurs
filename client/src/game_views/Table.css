@@ -3,4 +3,18 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     margin: 0 auto;
+
+    height: 300px; 
+    overflow-x: hidden; 
+    overflow-x: auto; 
+}
+
+.below-board {
+    box-shadow: 0 -4px 4px -4px gray;
+    z-index: 1;
+    position: relative;
+}
+
+.board::-webkit-scrollbar {
+    display: none;
 }

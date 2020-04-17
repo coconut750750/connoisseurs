@@ -1,5 +1,5 @@
 .hand {
-    display: inline-flex;
+    display: flex;
     justify-content: flex-start;
     margin: 0 auto;
 }

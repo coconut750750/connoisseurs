@@ -13,6 +13,7 @@ export default function CardStack(props) {
     <div className={getClass()}>
       {props.cards.map((c, index) => 
           <Card
+            key={c.id}
             card={c}
             color={"white"}
             active={props.active}
