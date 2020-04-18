@@ -40,6 +40,11 @@ export default function Table(props) {
     setSelected([]);
   };
 
+  const replaceWhite = (selected) => {
+    props.socket.emit('replaceWhite', { cids: selected.map(k => k.id) });
+    setSelected([]);
+  }
+
   const renderHeader = () => {
     if (props.phase === SELECTION) {
       if (canSelect()) {
@@ -67,17 +72,22 @@ export default function Table(props) {
   const renderAction = (selectedWinner) => {
     if (props.phase === SELECTION) {
       return (
-        <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => playWhite(selected) }>Submit</button>
+        <div className="d-flex justify-content-around">
+          <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => playWhite(selected) }>Submit</button>
+          <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => replaceWhite(selected) }>Replace</button>
+        </div>
       );
     } else if (props.phase === REVEAL) {
-      return [
-        <button type="button" className="btn btn-light"
-          disabled={!props.me.isConnoisseur()}
-          onClick={ () => props.socket.emit('revealWhite', {}) }>Reveal Next</button>,
-        <button type="button" className="btn btn-light"
-          disabled={!props.me.isConnoisseur()}
-          onClick={ () => props.socket.emit('revealWhites', {}) }>Reveal All</button>,
-      ];
+      return (
+        <div className="d-flex justify-content-around">
+          <button type="button" className="btn btn-light"
+            disabled={!props.me.isConnoisseur()}
+            onClick={ () => props.socket.emit('revealWhite', {}) }>Reveal Next</button>
+          <button type="button" className="btn btn-light"
+            disabled={!props.me.isConnoisseur()}
+            onClick={ () => props.socket.emit('revealWhites', {}) }>Reveal All</button>
+        </div>
+      );
     } else if (props.phase === JUDGING) {
       return (
         <button type="button" className="btn btn-light"
@@ -85,12 +95,14 @@ export default function Table(props) {
           onClick={ () => props.socket.emit('selectWinner', { cid: selectedWinner.id }) }>Select Winner</button>
       );
     } else if (props.phase === WINNER) {
-      return [
-        <button type="button" className="btn btn-light"
-          onClick={ () => props.socket.emit('startRound', {}) }>Next Round</button>,
-        <button type="button" className="btn btn-light"
-          onClick={ () => props.socket.emit('seeResults', {}) }>See Results</button>,
-      ];
+      return (
+        <div className="d-flex justify-content-around">
+          <button type="button" className="btn btn-light"
+            onClick={ () => props.socket.emit('startRound', {}) }>Next Round</button>
+          <button type="button" className="btn btn-light"
+            onClick={ () => props.socket.emit('seeResults', {}) }>See Results</button>
+        </div>
+      );
     }
   };
 

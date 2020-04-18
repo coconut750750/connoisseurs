@@ -12,6 +12,7 @@ import ScoreBoard from '../models/scoreboard';
 import BlackCard from '../models/blackcard';
 import { parseWhiteCardList } from '../models/whitecard';
 import ResultsModel from '../models/results';
+import HandModel from '../models/hand';
 import DeckInfo from '../models/deckinfo';
 
 const LOBBY = "lobby";
@@ -29,7 +30,7 @@ export default function Game(props) {
   const [me, setMe] = useState(undefined);
 
   const [scoreboard, setScoreBoard] = useState(new ScoreBoard());
-  const [hand, setHand] = useState([]);
+  const [hand, setHand] = useState(new HandModel());
   const [played, setPlayed] = useState([]);
   const [blackcard, setBlack] = useState(new BlackCard(0, "", 0));
   const [deckinfo, setDeckInfo] = useState(new DeckInfo());
@@ -54,7 +55,7 @@ export default function Game(props) {
     const reset = () => {
       setScoreBoard(new ScoreBoard());
       setResults(new ResultsModel());
-      setHand([]);
+      setHand(new HandModel());
       resetRound();
       setDeckInfo(new DeckInfo());
     };
@@ -94,8 +95,9 @@ export default function Game(props) {
     });
 
     props.socket.on('hand', data => {
-      const { hand } = data;
-      setHand(parseWhiteCardList(hand));
+      const { cards, replaces } = data;
+      const cardlist = parseWhiteCardList(cards);
+      setHand(new HandModel(cardlist, replaces));
     });
 
     props.socket.on('played', data => {
@@ -143,11 +145,6 @@ export default function Game(props) {
 
   return (
     <div>
-      {message && <div className="alert alert-danger p-2" role="alert">
-        {message}
-        <br/>
-      </div>}
-
       <GameCodeBadge gameCode={props.gameCode}/>
 
       {phase === LOBBY &&
@@ -177,6 +174,11 @@ export default function Game(props) {
           players={players}
           results={results}/>
       }
+
+      <br/>
+      {message && <div className="alert alert-danger p-2" role="alert">
+        {message}
+      </div>}
     </div>
   );
 }

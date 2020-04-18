@@ -10,6 +10,7 @@ class Player {
 
     this.role = PLAYER_ROLE;
     this.points = 0;
+    this.replaces = 0;
 
     this.hand = [];
   }
@@ -32,6 +33,18 @@ class Player {
 
   resetPoints() {
     this.points = 0;
+  }
+
+  addReplaces(n) {
+    this.replaces += n;
+  }
+
+  useReplaces(n) {
+    this.replaces -= n;
+  }
+
+  canReplace() {
+    return this.replaces > 0;
   }
 
   addCard(card) {
@@ -99,7 +112,7 @@ class Player {
   }
 
   sendHand() {
-    this.send('hand', { 'hand' : this.hand.map(c => c.json()) });
+    this.send('hand', { 'cards' : this.hand.map(c => c.json()), 'replaces': this.replaces });
   }
 }
 

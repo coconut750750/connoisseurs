@@ -37,8 +37,8 @@ function socketio(socket, game, name, player) {
 
   socket.on('replaceWhite', data => {
     try {
-      const { cid } = data;
-      game.replaceCard(player, cid);
+      const { cids } = data;
+      game.replaceCards(player, cids);
     } catch (err) {
       socket.emit('message', { message: err.message });
     }

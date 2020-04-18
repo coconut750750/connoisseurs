@@ -72,6 +72,7 @@ class Game extends GameInterface {
     }
     this.started = true;
     this.deck = new Deck(options.sets);
+    this.replaces = 2;//options.replaces;
 
     this.round = new Round(this.pmanager.length());
     this.round.nextConnoisseurName = this.pmanager.getRandomName();
@@ -100,10 +101,11 @@ class Game extends GameInterface {
     this.notifyDeckInfo();
   }
 
-  refillHands() {
+  upkeep() {
     const players = this.pmanager.getAll();
     for (var p of players) {
       p.addCards(this.deck.drawWhiteCards(p.needCards()));
+      p.addReplaces(this.replaces);
       p.sendHand();
     }
   }
@@ -125,7 +127,7 @@ class Game extends GameInterface {
     this.round.discard(this.deck);
     this.round.reset();
 
-    this.refillHands();
+    this.upkeep();
     this.revealBlackCard();
 
     this.notifyDeckInfo();
@@ -141,12 +143,15 @@ class Game extends GameInterface {
     if (this.round.alreadyPlayed(player.name)) {
       throw new Error("You have already played a white card");
     }
-    if (this.round.currentBlackCard.blanks !== cids.length) {
+
+    const count = cids.length;
+    if (this.round.currentBlackCard.blanks !== count) {
       throw new Error("You didn't play the right amount of white cards");
     }
 
     const removed = player.removeCards(cids);
-    if (removed.length !== cids.length) {
+    if (removed.length !== count) {
+      player.addCards(removed);
       throw new Error("A card not in your hand was played");
     }
 
@@ -159,8 +164,24 @@ class Game extends GameInterface {
     }
   }
 
-  replaceCard(player, cid) {
+  replaceCards(player, cids) {
+    if (this.phase !== PHASES[1]) {
+      throw new Error("You cannot replace cards right now");
+    }
+    if (!player.canReplace()) {
+      throw new Error("You use up all your card replaces for this round");
+    }
 
+    const count = cids.length;
+    const removed = player.removeCards(cids);
+    if (removed.length !== count) {
+      player.addCards(removed);
+      throw new Error("A card not in your hand was replaced");
+    }
+
+    player.useReplaces(count);
+    player.addCards(this.deck.drawWhiteCards(count));
+    player.sendHand();
   }
 
   beginReveal() {
