@@ -6,6 +6,7 @@ def fetch_setnames():
     url = "https://www.crhallberg.com/cah/data/order.json"
     response = json.loads(requests.get(url).text)
     official_sets = {k: v for k, v in response.items() if k != 'order' and v['name'][0] != '['}
+    del official_sets["misprint"]
     return official_sets
 
 def clean(text):
