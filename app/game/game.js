@@ -67,6 +67,12 @@ class Game extends GameInterface {
     if (!this.pmanager.enough()) {
       throw new Error("Not enough players have joined the game");
     }
+    if (!("sets" in options)) {
+      throw new Error("You must specific which sets you want to use");
+    }
+    if (options.sets.length === 0) {
+      throw new Error("You must specific at least one set to use");
+    }
     this.started = true;
     this.deck = new Deck(options.sets);
 
