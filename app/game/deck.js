@@ -28,11 +28,11 @@ class Deck {
   load(sets) {
     for (let set of sets) {
       const { blackCards, whiteCards } = jsonFromFile(set);
-      for (let [i, blackcard] of blackCards.entries()) {
-        this.blackCards.push(new BlackCard(i, blackcard.text, blackcard.pick));
+      for (let blackcard of blackCards) {
+        this.blackCards.push(new BlackCard(this.blackCards.length, blackcard.text, blackcard.pick));
       }
-      for (let [i, whitecard] of whiteCards.entries()) {
-        this.whiteCards.push(new WhiteCard(i, whitecard));
+      for (let whitecard of whiteCards) {
+        this.whiteCards.push(new WhiteCard(this.whiteCards.length, whitecard));
       }
     }
 
