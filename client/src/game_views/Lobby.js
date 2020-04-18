@@ -35,6 +35,14 @@ export default function Lobby(props) {
     }
   };
 
+  const toggleSelected = (sets, prevSelected) => {
+    if (prevSelected.length === sets.length) {
+      setSelected([]);
+    } else {
+      setSelected(sets);
+    }
+  };
+
   const renderSets = (sets, selected) => {
     return sets.map(setName => 
       <div class="custom-control custom-checkbox">
@@ -45,6 +53,17 @@ export default function Lobby(props) {
       </div>
     );
   };
+
+  const renderSetSelection = (sets, selected) => {
+    return (
+      <div>
+        <button type="button" className="btn btn-light btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All</button>
+        <br/>
+        <br/>
+        {renderSets(sets, selected)}
+      </div>
+    )
+  };
   
   return (
     <div>
@@ -53,7 +72,7 @@ export default function Lobby(props) {
 
       <div className="row">
         <div className="col-3">
-          { canRenderAdmin() ? renderSets(sets, selected) : undefined }
+          { canRenderAdmin() ? renderSetSelection(sets, selected) : undefined }
         </div>
         <div className="col-6">
           <PlayerList

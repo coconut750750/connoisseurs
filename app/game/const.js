@@ -1,5 +1,5 @@
 module.exports = {
-  MIN_PLAYERS: 2,
+  MIN_PLAYERS: 3,
   N_CARD_REQUIREMENT: 10,
 
   PLAYER_ROLE: "player",

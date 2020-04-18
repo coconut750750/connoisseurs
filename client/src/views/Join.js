@@ -9,7 +9,7 @@ function Join(props) {
   const [gameCode, setGameCode] = useState("");
 
   const debounceDisappear = () => setMessage("");
-  const disappearCallback = useCallback(debounce(debounceDisappear, 5000), []);
+  const disappearCallback = useCallback(debounce(debounceDisappear, 3000), []);
 
   const joinGame = async () => {
     checkCode(gameCode).then(res => {
@@ -48,8 +48,9 @@ function Join(props) {
         <button type="button" className="btn btn-light" onClick={props.goBack}>Back</button>
         <button type="button" className="btn btn-light" onClick={ () => joinGame() }>Join</button>
       </div>
+      <br/>
 
-      {message && <div className="alert alert-danger" role="alert">
+      {message && <div className="alert alert-danger p-2" role="alert">
         {message}
       </div>}
     </div>

@@ -39,7 +39,7 @@ export default function Game(props) {
   const [results, setResults] = useState(new ResultsModel());
 
   const debounceDisappear = () => setMessage("");
-  const disappearCallback = useCallback(debounce(debounceDisappear, 5000), []);
+  const disappearCallback = useCallback(debounce(debounceDisappear, 3000), []);
 
   // on mount
   useEffect(() => {
@@ -143,6 +143,11 @@ export default function Game(props) {
 
   return (
     <div>
+      {message && <div className="alert alert-danger p-2" role="alert">
+        {message}
+        <br/>
+      </div>}
+
       <GameCodeBadge gameCode={props.gameCode}/>
 
       {phase === LOBBY &&
@@ -172,11 +177,6 @@ export default function Game(props) {
           players={players}
           results={results}/>
       }
-
-      <br/>
-      {message && <div className="alert alert-danger" role="alert">
-        {message}
-      </div>}
     </div>
   );
 }

@@ -8,7 +8,7 @@ function Create(props) {
   const [name, setName] = useState("");
 
   const debounceDisappear = () => setMessage("");
-  const disappearCallback = useCallback(debounce(debounceDisappear, 5000), []);
+  const disappearCallback = useCallback(debounce(debounceDisappear, 3000), []);
 
   const create = async () => {
     checkName(name).then(res => {
@@ -35,8 +35,9 @@ function Create(props) {
         <button type="button" className="btn btn-light" onClick={props.goBack}>Back</button>
         <button type="button" className="btn btn-light" onClick={ () => create() }>Create</button>
       </div>
+      <br/>
 
-      {message && <div className="alert alert-danger" role="alert">
+      {message && <div className="alert alert-danger p-2" role="alert">
         {message}
       </div>}
     </div>
