@@ -129,15 +129,10 @@ export default function Table(props) {
         scoreboard={props.scoreboard}/>
       <br/>
 
-      <div className="row">
-        <div className="col-9"></div>
-        <div className="col-3">
-          <Deck
-            shuffle={ () => props.socket.emit('shuffle', {}) }
-            deckinfo={props.deckinfo}/>
-          <br/>
-        </div>
-      </div>
+      <Deck
+        shuffle={ () => props.socket.emit('shuffle', {}) }
+        deckinfo={props.deckinfo}/>
+      <br/>
 
       <div className="board">
         <Card

@@ -1,6 +1,6 @@
 .deck {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     vertical-align: middle;
     height: 1.25em;
 }
@@ -12,6 +12,7 @@
 
 .deck .item {
     display: flex;
+    padding-left: 1.5vw;
 }
 
 .deck .item .card-icon {
@@ -21,7 +22,7 @@
     line-height: 1.25;
     min-height: 1.25em;
     min-width: 0.8em;
-    margin-right: 0.5em;
+    margin-right: 0.25em;
 
 }
 

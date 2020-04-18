@@ -6,11 +6,8 @@ const { MIN_PLAYERS, N_CARD_REQUIREMENT } = require("./const");
 
 const PHASES = ['lobby', 'selection', 'reveal', 'judging', 'winner', 'results'];
 // options
-// sets
-// how often to discard
+// how often to replace
 // how many rounds to play (number, or 0 for infinite)
-
-// "see results" option to skip to results
 
 class Game extends GameInterface {
   constructor(code, onEmpty, options, broadcast) {

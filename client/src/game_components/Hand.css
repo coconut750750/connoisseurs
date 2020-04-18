@@ -2,12 +2,13 @@
     display: flex;
     justify-content: flex-start;
     margin: 0 auto;
+    width: var(--appwidth);
 }
 
 .hovercard {
     position: relative;
-    width: 150px;
-    height: 200px;
+    width: calc(var(--appwidth) / 11 * 2);
+    height: calc(var(--appwidth) / 11 * 2 * 1.38);
 }
 
 .card-hover.active:hover ~ .card {

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
-  width: 825px;
+  --appwidth: 70vw;
+  width: var(--appwidth);
   margin: 0 auto;
 }

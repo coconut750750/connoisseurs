@@ -4,10 +4,4 @@
 
 .stack {
     height: max-content;
-    border-radius: .25rem;
-    overflow: hidden;
-}
-
-.stack .card {
-    border-radius: 0;
 }

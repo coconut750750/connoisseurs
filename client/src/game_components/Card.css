@@ -1,9 +1,9 @@
 .card .card-body {
-    padding: 0.5rem;
+    padding: 5%;
 }
 
 .card h6 {
-    font-size: 0.9em;
+    font-size: 1.5vw;
     margin: 0;
 }
 
@@ -14,8 +14,8 @@
 
 .card.white,
 .card.black {
-    width: 150px;
-    height: 200px;
+    width: calc(var(--appwidth) / 11 * 2);
+    height: calc(var(--appwidth) / 11 * 2 * 1.38);
 }
 
 .card.white.toggled {
@@ -29,4 +29,6 @@
 .card.short {
     height: auto;
     border-bottom: none;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
