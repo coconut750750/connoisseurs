@@ -79,14 +79,15 @@ class Game extends GameInterface {
     this.round = new Round(this.pmanager.length());
     this.round.nextConnoisseurName = this.pmanager.getRandomName();
 
-    this.emptyHands();
+    this.resetPlayers();
 
     this.roundStart();
   }
 
-  emptyHands() {
+  resetPlayers() {
     for (let p of this.pmanager.getAll()) {
       p.emptyHand();
+      p.resetPoints();
     }
   }
 
