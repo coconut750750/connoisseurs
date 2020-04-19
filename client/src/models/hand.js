@@ -1,13 +1,13 @@
 export default class Hand {
-  constructor(cards, replaces) {
+  constructor(cards, swaps) {
     this.cards = [];
-    this.replaces = 0;
+    this.swaps = 0;
 
     if (cards !== undefined) {
       this.cards = cards;
     }
-    if (replaces !== undefined) {
-      this.replaces = replaces;
+    if (swaps !== undefined) {
+      this.swaps = swaps;
     }
   }
 }

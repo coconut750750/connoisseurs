@@ -31,7 +31,7 @@ export default function Table(props) {
     return props.played.length !== 0;
   };
 
-  const canSelect = () => {
+  const canPlay = () => {
     return !alreadyPlayed() && !props.me.isConnoisseur();
   };
 
@@ -40,14 +40,14 @@ export default function Table(props) {
     setSelected([]);
   };
 
-  const replaceWhite = (selected) => {
-    props.socket.emit('replaceWhite', { cids: selected.map(k => k.id) });
+  const swapWhite = (selected) => {
+    props.socket.emit('swapWhite', { cids: selected.map(k => k.id) });
     setSelected([]);
   }
 
   const renderHeader = () => {
     if (props.phase === SELECTION) {
-      if (canSelect()) {
+      if (canPlay()) {
         return <h6>Make your selection</h6>;
       } else {
         return <h6>Waiting for other players to choose...</h6>;
@@ -73,8 +73,8 @@ export default function Table(props) {
     if (props.phase === SELECTION) {
       return (
         <div className="d-flex justify-content-around">
-          <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => playWhite(selected) }>Submit</button>
-          <button type="button" className="btn btn-light" disabled={!canSelect()} onClick={ () => replaceWhite(selected) }>Replace</button>
+          <button type="button" className="btn btn-light" disabled={!canPlay()} onClick={ () => playWhite(selected) }>Submit</button>
+          <button type="button" className="btn btn-light" onClick={ () => swapWhite(selected) }>Swap</button>
         </div>
       );
     } else if (props.phase === REVEAL) {
@@ -159,11 +159,10 @@ export default function Table(props) {
 
         {renderAction(selectedWinner)}
         <br/>
-        <br/>
 
         <Hand
           hand={props.hand}
-          canSelect={canSelect()}
+          canSelect={props.phase === SELECTION}
           selected={selected}
           select={ (card) => updateSelected(card, selected)}/>
         <br/>

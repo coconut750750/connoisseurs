@@ -27,8 +27,14 @@ export default function Hand(props) {
   };
 
   return (
-    <div className="hand">
-      {renderCards()}
+    <div>
+      <div className="d-flex justify-content-end">
+        <span class="material-icons">autorenew</span>
+        <h6>{props.hand.swaps}</h6>
+      </div>
+      <div className="hand">
+        {renderCards()}
+      </div>
     </div>
   );
 }

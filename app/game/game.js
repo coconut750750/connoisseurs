@@ -72,7 +72,7 @@ class Game extends GameInterface {
     }
     this.started = true;
     this.deck = new Deck(options.sets);
-    this.replaces = 2;//options.replaces;
+    this.swaps = 2;//options.swaps;
 
     this.round = new Round(this.pmanager.length());
     this.round.nextConnoisseurName = this.pmanager.getRandomName();
@@ -105,7 +105,7 @@ class Game extends GameInterface {
     const players = this.pmanager.getAll();
     for (var p of players) {
       p.addCards(this.deck.drawWhiteCards(p.needCards()));
-      p.addReplaces(this.replaces);
+      p.addSwaps(this.swaps);
       p.sendHand();
     }
   }
@@ -164,12 +164,12 @@ class Game extends GameInterface {
     }
   }
 
-  replaceCards(player, cids) {
+  swapCards(player, cids) {
     if (this.phase !== PHASES[1]) {
       throw new Error("You cannot replace cards right now");
     }
-    if (!player.canReplace()) {
-      throw new Error("You use up all your card replaces for this round");
+    if (!player.canSwap()) {
+      throw new Error("You use up all your card swaps for this round");
     }
 
     const count = cids.length;
@@ -179,7 +179,7 @@ class Game extends GameInterface {
       throw new Error("A card not in your hand was replaced");
     }
 
-    player.useReplaces(count);
+    player.useSwaps(count);
     player.addCards(this.deck.drawWhiteCards(count));
     player.sendHand();
   }

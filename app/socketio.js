@@ -35,10 +35,10 @@ function socketio(socket, game, name, player) {
     }
   });
 
-  socket.on('replaceWhite', data => {
+  socket.on('swapWhite', data => {
     try {
       const { cids } = data;
-      game.replaceCards(player, cids);
+      game.swapCards(player, cids);
     } catch (err) {
       socket.emit('message', { message: err.message });
     }

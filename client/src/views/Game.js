@@ -95,9 +95,9 @@ export default function Game(props) {
     });
 
     props.socket.on('hand', data => {
-      const { cards, replaces } = data;
+      const { cards, swaps } = data;
       const cardlist = parseWhiteCardList(cards);
-      setHand(new HandModel(cardlist, replaces));
+      setHand(new HandModel(cardlist, swaps));
     });
 
     props.socket.on('played', data => {
