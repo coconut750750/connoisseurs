@@ -17,7 +17,7 @@ const gameSocketio = require('./app/socketio');
 const registerRouter = require("./app/register");
 const gameRouter = require("./app/routes")
 
-const port = process.env.PORT || 5000;
+const port = process.env.CONNOISSEURS_PORT || process.env.PORT || 5000;
 const dev = process.env.NODE_ENV !== 'production';
 
 app.use(bodyParser.json());
