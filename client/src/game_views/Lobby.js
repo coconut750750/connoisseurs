@@ -12,12 +12,14 @@ export default function Lobby(props) {
   const [sets, setSets] = useState([]);
   const [selected, setSelected] = useState([]);
 
+  const [swaps, setSwaps] = useState(0);
+
   const canRenderAdmin = () => {
     return props.me !== undefined && props.me.isAdmin;
   }
 
   const startGame = (selected) => {
-    props.socket.emit('startGame', { options: {sets: selected}});
+    props.socket.emit('startGame', { options: { sets: selected, swaps: parseInt(swaps) }});
   }
 
   useEffect(() => {
@@ -64,6 +66,27 @@ export default function Lobby(props) {
       </div>
     )
   };
+
+  const renderSwapSelection = () => {
+    return (
+      <div>
+        <h6>Number of card swaps per round</h6>
+        <select className="form-control" defaultValue={0} onChange={ e => setSwaps(e.target.value) }>
+          <option value={0}>0</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
+          <option value={7}>7</option>
+          <option value={8}>8</option>
+          <option value={9}>9</option>
+          <option value={10}>10</option>
+        </select>
+      </div>
+    );
+  };
   
   return (
     <div>
@@ -82,7 +105,11 @@ export default function Lobby(props) {
           <br/>
 
           {canRenderAdmin() &&
-            <button type="button" className="btn btn-light" onClick={ () => startGame(selected) }>Start Game</button>
+            <div>
+              {renderSwapSelection()}
+              <br/>
+              <button type="button" className="btn btn-light" onClick={ () => startGame(selected) }>Start Game</button>
+            </div>
           }
         </div>
         <div className="col-3"></div>

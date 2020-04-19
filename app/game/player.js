@@ -36,7 +36,10 @@ class Player {
   }
 
   addSwaps(n) {
+    console.log(typeof this.swaps);
+    console.log(typeof n);
     this.swaps += n;
+    console.log(typeof this.swaps);
   }
 
   useSwaps(n) {

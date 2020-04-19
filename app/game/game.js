@@ -57,22 +57,19 @@ class Game extends GameInterface {
     this.pmanager.deactivate(name);
   }
 
-  start(options) {
+  start(sets, swaps) {
     if (this.phase !== PHASES[0]) {
       throw new Error("Cannot start a new game outside of the lobby");
     }
     if (!this.pmanager.enough()) {
       throw new Error("Not enough players have joined the game");
     }
-    if (!("sets" in options)) {
-      throw new Error("You must specific which sets you want to use");
-    }
-    if (options.sets.length === 0) {
+    if (sets.length === 0) {
       throw new Error("You must specific at least one set to use");
     }
     this.started = true;
-    this.deck = new Deck(options.sets);
-    this.swaps = 2;//options.swaps;
+    this.deck = new Deck(sets);
+    this.swaps = swaps;
 
     this.round = new Round(this.pmanager.length());
     this.round.nextConnoisseurName = this.pmanager.getRandomName();

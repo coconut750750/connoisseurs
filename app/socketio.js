@@ -3,7 +3,7 @@ function socketio(socket, game, name, player) {
     if (player.isAdmin) {
       try {
         const { options } = data;
-        game.start(options);
+        game.start(options.sets, options.swaps);
       } catch (err) {
         socket.emit('message', { message: err.message });
       }
