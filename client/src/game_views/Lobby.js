@@ -19,7 +19,7 @@ export default function Lobby(props) {
   }
 
   const startGame = (selected) => {
-    props.socket.emit('startGame', { options: { sets: selected, swaps: parseInt(swaps) }});
+    props.socket.emit('startGame', { options: { sets: selected, roundsPerSwap: parseInt(swaps) }});
   }
 
   useEffect(() => {
@@ -70,9 +70,9 @@ export default function Lobby(props) {
   const renderSwapSelection = () => {
     return (
       <div>
-        <h6>Number of card swaps per round</h6>
+        <h6>Number of rounds per card swap</h6>
         <select className="form-control" defaultValue={0} onChange={ e => setSwaps(e.target.value) }>
-          <option value={0}>0</option>
+          <option value={0}>No card swaps</option>
           <option value={1}>1</option>
           <option value={2}>2</option>
           <option value={3}>3</option>

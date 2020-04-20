@@ -27,6 +27,8 @@ class Game extends GameInterface {
 
     this.deck = undefined;
     this.round = undefined;
+    this.roundsPerSwap = 0;
+    this.roundCount = 0;
   }
 
   playerExists(name) {
@@ -57,7 +59,7 @@ class Game extends GameInterface {
     this.pmanager.deactivate(name);
   }
 
-  start(sets, swaps) {
+  start(sets, roundsPerSwap) {
     if (this.phase !== PHASES[0]) {
       throw new Error("Cannot start a new game outside of the lobby");
     }
@@ -65,11 +67,19 @@ class Game extends GameInterface {
       throw new Error("Not enough players have joined the game");
     }
     if (sets.length === 0) {
-      throw new Error("You must specific at least one set to use");
+      throw new Error("You must specify at least one set to use");
     }
-    this.started = true;
     this.deck = new Deck(sets);
-    this.swaps = swaps;
+    if (this.deck.whiteDeck.length === 0) {
+      throw new Error("There are no white cards in the selected sets")
+    }
+    if (this.deck.blackDeck === 0) {
+      throw new Error("There are no black cards in the selected sets")
+    }
+
+    this.started = true;
+    this.roundsPerSwap = roundsPerSwap;
+    this.roundCount = 0;
 
     this.round = new Round(this.pmanager.length());
     this.round.nextConnoisseurName = this.pmanager.getRandomName();
@@ -99,10 +109,16 @@ class Game extends GameInterface {
   }
 
   upkeep() {
+    if (this.roundsPerSwap > 0) {
+      this.roundCount = (this.roundCount + 1) % this.roundsPerSwap;
+    }
+
     const players = this.pmanager.getAll();
     for (var p of players) {
       p.addCards(this.deck.drawWhiteCards(p.needCards()));
-      p.addSwaps(this.swaps);
+      if (this.roundsPerSwap > 0 && this.roundCount === 0) {
+        p.addSwaps(1);
+      }
       p.sendHand();
     }
   }
