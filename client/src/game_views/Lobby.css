@@ -1,7 +1,13 @@
 .custom-checkbox {
     float: left;
+    width: 100%;
+}
+
+.custom-control-input {
+    float: left;
 }
 
 .custom-control-label {
     text-align: left;
+    float: left;
 }
