@@ -160,7 +160,7 @@ export default function Table(props) {
         <Hand
           hand={props.hand}
           canSelect={props.phase === SELECTION}
-          selected={selected}
+          selected={props.phase === SELECTION ? selected : []}
           select={ (card) => updateSelected(card, selected)}/>
         <br/>
       </div>
