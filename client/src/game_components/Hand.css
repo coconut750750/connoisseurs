@@ -2,13 +2,13 @@
     display: flex;
     justify-content: flex-start;
     margin: 0 auto;
-    width: var(--appwidth);
+    width: var(--handwidth);
 }
 
 .hovercard {
     position: relative;
-    width: calc(var(--appwidth) / 11 * 2);
-    height: calc(var(--appwidth) / 11 * 2 * 1.38);
+    width: var(--cardwidth);
+    height: var(--cardheight);
 }
 
 .card-hover.active:hover ~ .card {
@@ -29,4 +29,40 @@
 
 .hovercard:last-of-type .card-hover {
     width: 100%;
+}
+
+.hovercard:nth-child(2) {
+    left: calc(-1 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(3) {
+    left: calc(-2 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(4) {
+    left: calc(-3 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(5) {
+    left: calc(-4 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(6) {
+    left: calc(-5 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(7) {
+    left: calc(-6 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(8) {
+    left: calc(-7 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(9) {
+    left: calc(-8 * var(--cardwidth) * 0.5);
+}
+
+.hovercard:nth-child(10) {
+    left: calc(-9 * var(--cardwidth) * 0.5);
 }

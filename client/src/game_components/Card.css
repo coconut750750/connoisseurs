@@ -3,7 +3,7 @@
 }
 
 .card h6 {
-    font-size: 1.5vw;
+    font-size: 1.2vw;
     margin: 0;
 }
 
@@ -14,8 +14,8 @@
 
 .card.white,
 .card.black {
-    width: calc(var(--appwidth) / 11 * 2);
-    height: calc(var(--appwidth) / 11 * 2 * 1.38);
+    width: var(--cardwidth);
+    height: var(--cardheight);
 }
 
 .card.white.toggled {

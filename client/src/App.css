@@ -1,6 +1,11 @@
 .App {
-  text-align: center;
-  --appwidth: 70vw;
-  width: var(--appwidth);
-  margin: 0 auto;
+    --appwidth: 70vw;
+    --handwidth: calc(var(--appwidth) * 0.9);
+    --cardwidth: calc(var(--handwidth) / 11 * 2);
+    --cardheight: calc(var(--cardwidth) * 1.38);
+
+    width: var(--appwidth);
+
+    text-align: center;
+    margin: 0 auto;
 }

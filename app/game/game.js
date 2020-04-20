@@ -165,11 +165,12 @@ class Game extends GameInterface {
     if (this.phase !== PHASES[1]) {
       throw new Error("You cannot replace cards right now");
     }
-    if (!player.canSwap()) {
-      throw new Error("You use up all your card swaps for this round");
-    }
 
     const count = cids.length;
+    if (!player.canSwap(count)) {
+      throw new Error("You can't swap that many cards");
+    }
+
     const removed = player.removeCards(cids);
     if (removed.length !== count) {
       player.addCards(removed);

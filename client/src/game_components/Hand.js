@@ -12,9 +12,9 @@ export default function Hand(props) {
 
   const renderCards = () => {
     let rendered = [];
-    for (let [index, c] of props.hand.cards.entries()) {
+    for (let c of props.hand.cards) {
       rendered.push(
-        <div className="hovercard" style={{ transform: `translateX(-${50 * index}%)` }} key={c.id}>
+        <div className="hovercard" key={c.id}>
           <div className={cardInteractClass()} onClick={ () => { if (props.canSelect) props.select(c); } }/>
           <Card
             card={c}
