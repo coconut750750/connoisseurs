@@ -1,14 +1,30 @@
+.card {
+    border: 1.2px solid rgba(128, 128, 128,.25);
+    border-radius: .25vw;
+}
+
 .card .card-body {
     padding: 5%;
 }
 
 .card h6 {
-    font-size: 1.2vw;
+    font-size: 1vw;
     margin: 0;
 }
 
-.card.black {
+.card.white h6 {
+    color: black;
+}
+
+.card.white {
+    background-color: #fff;
+}
+
+.card.black h6 {
     color: white;
+}
+
+.card.black {
     background-color: #000;
 }
 

@@ -10,7 +10,7 @@
 }
 
 .below-board {
-    box-shadow: 0 -4px 4px -4px gray;
+    box-shadow: 0 -4px 4px -4px #ededed;
     z-index: 1;
     position: relative;
 }

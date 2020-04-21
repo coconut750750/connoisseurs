@@ -32,8 +32,8 @@ function Create(props) {
       <br />
 
       <div className="button-row d-flex justify-content-around">
-        <button type="button" className="btn btn-light" onClick={props.goBack}>Back</button>
-        <button type="button" className="btn btn-light" onClick={ () => create() }>Create</button>
+        <button type="button" className="btn btn-dark" onClick={props.goBack}>Back</button>
+        <button type="button" className="btn btn-dark" onClick={ () => create() }>Create</button>
       </div>
       <br/>
 

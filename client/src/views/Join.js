@@ -45,8 +45,8 @@ function Join(props) {
       <br/>
 
       <div className="button-row d-flex justify-content-around">
-        <button type="button" className="btn btn-light" onClick={props.goBack}>Back</button>
-        <button type="button" className="btn btn-light" onClick={ () => joinGame() }>Join</button>
+        <button type="button" className="btn btn-dark" onClick={props.goBack}>Back</button>
+        <button type="button" className="btn btn-dark" onClick={ () => joinGame() }>Join</button>
       </div>
       <br/>
 

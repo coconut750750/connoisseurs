@@ -72,29 +72,29 @@ export default function Table(props) {
   const renderAction = (selectedWinner) => {
     if (props.phase === SELECTION) {
       return [
-        <button type="button" className="btn btn-light" disabled={!canPlay()} onClick={ () => playWhite(selected) }>Submit</button>,
-        <button type="button" className="btn btn-light" onClick={ () => swapWhite(selected) }>Swap</button>
+        <button type="button" className="btn btn-dark" disabled={!canPlay()} onClick={ () => playWhite(selected) }>Submit</button>,
+        <button type="button" className="btn btn-dark" onClick={ () => swapWhite(selected) }>Swap</button>
       ];
     } else if (props.phase === REVEAL) {
       return [
-        <button type="button" className="btn btn-light"
+        <button type="button" className="btn btn-dark"
           disabled={!props.me.isConnoisseur()}
           onClick={ () => props.socket.emit('revealWhite', {}) }>Reveal Next</button>,
-        <button type="button" className="btn btn-light"
+        <button type="button" className="btn btn-dark"
           disabled={!props.me.isConnoisseur()}
           onClick={ () => props.socket.emit('revealWhites', {}) }>Reveal All</button>
       ];
     } else if (props.phase === JUDGING) {
       return [
-        <button type="button" className="btn btn-light"
+        <button type="button" className="btn btn-dark"
           disabled={!props.me.isConnoisseur() || selectedWinner.id === -1}
           onClick={ () => props.socket.emit('selectWinner', { cid: selectedWinner.id }) }>Select Winner</button>
       ];
     } else if (props.phase === WINNER) {
       return [
-        <button type="button" className="btn btn-light"
+        <button type="button" className="btn btn-dark"
           onClick={ () => props.socket.emit('startRound', {}) }>Next Round</button>,
-        <button type="button" className="btn btn-light"
+        <button type="button" className="btn btn-dark"
           onClick={ () => props.socket.emit('seeResults', {}) }>See Results</button>
       ];
     }

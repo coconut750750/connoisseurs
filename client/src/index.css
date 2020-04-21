@@ -6,7 +6,40 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /*background-color: #121212;*/
+}
+
+body.dark {
+  background-color: #121212;
+}
+
+p {
+    margin: 0;
+}
+
+.dark h1, 
+.dark h2, 
+.dark h3, 
+.dark h4, 
+.dark h5, 
+.dark h6, 
+.dark p, 
+.dark small, 
+.dark span {
+    color: white;
+}
+
+.dark hr {
+    border-color: white;
+}
+
+.dark .form-control {
+    background-color: #343a40;
+    border-color: #121212;
+    color: white;
+}
+
+.form-control:focus {
+    box-shadow: none;
 }
 
 code {

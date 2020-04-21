@@ -6,7 +6,7 @@ function HowTo(props) {
       <h4>How To Play</h4>
 
 
-      <button type="button" className="btn btn-light" onClick={props.goBack}>Back</button>
+      <button type="button" className="btn btn-dark" onClick={props.goBack}>Back</button>
     </div>
   );
 }

@@ -6,7 +6,7 @@ const style = {
 
 function GameCodeBadge(props) {
   return (
-    <h6>Game code: <span className="badge badge-secondary badge-light" style={style}>{props.gameCode}</span></h6>
+    <h6>Game code: <span className="badge badge-secondary badge-dark" style={style}>{props.gameCode}</span></h6>
   );
 }
 

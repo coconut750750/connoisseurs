@@ -13,7 +13,7 @@ export default function Results(props) {
         scoreboard={props.results.scoreboard}/>
       <br/>
 
-      <button type="button" className="btn btn-light" onClick={ () => props.socket.emit('toLobby', {}) }>New Game</button>
+      <button type="button" className="btn btn-dark" onClick={ () => props.socket.emit('toLobby', {}) }>New Game</button>
     </div>
   );
 }

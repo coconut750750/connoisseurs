@@ -17,7 +17,7 @@
 
 .deck .item .card-icon {
     display: inline-block;
-    border: 1.2px solid rgba(0,0,0,.125);
+    border: 1.2px solid rgba(255, 255, 255,.25);
     border-radius: .15rem;
     line-height: 1.25;
     min-height: 1.25em;

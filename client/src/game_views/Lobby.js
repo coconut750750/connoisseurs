@@ -51,7 +51,7 @@ export default function Lobby(props) {
         <input type="checkbox" class="custom-control-input" id={setName}
           onChange={ e => updateSelected(setName, selected) }
           checked={ selected.includes(setName) }/>
-        <label class="custom-control-label" for={setName}>{setName}</label>
+        <label class="custom-control-label" for={setName}><p>{setName}</p></label>
       </div>
     );
   };
@@ -59,7 +59,7 @@ export default function Lobby(props) {
   const renderSetSelection = (sets, selected) => {
     return (
       <div>
-        <button type="button" className="btn btn-light btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All</button>
+        <button type="button" className="btn btn-dark btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All</button>
         <br/>
         <br/>
         {renderSets(sets, selected)}
@@ -108,7 +108,7 @@ export default function Lobby(props) {
             <div>
               {renderSwapSelection()}
               <br/>
-              <button type="button" className="btn btn-light" onClick={ () => startGame(selected) }>Start Game</button>
+              <button type="button" className="btn btn-dark" onClick={ () => startGame(selected) }>Start Game</button>
             </div>
           }
         </div>
