@@ -4,9 +4,9 @@
     justify-content: flex-start;
     margin: 0 auto;
 
+    padding-top: 2px;
     height: 300px; 
-    overflow-x: hidden; 
-    overflow-x: auto; 
+    overflow-y: auto; 
 }
 
 .below-board {

@@ -32,6 +32,10 @@ p {
     border-color: white;
 }
 
+.dark .badge-primary {
+  background-color: #bb86fc;
+}
+
 .dark .form-control {
     background-color: #343a40;
     border-color: #121212;
