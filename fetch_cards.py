@@ -7,10 +7,11 @@ def fetch_setnames():
     response = json.loads(requests.get(url).text)
     official_sets = {k: v for k, v in response.items() if k != 'order' and v['name'][0] != '['}
     del official_sets["misprint"]
+    print([official_sets[i]['name'] for i in response['order'] if i in official_sets])
     return official_sets
 
 def clean(text):
-    return html.unescape(text.replace("_", "___").replace("<br>", "\n"))
+    return html.unescape(text.replace("_", "___").replace("<br>", "\n").replace("<br/>", "\n").replace("</br>", "\n"))
 
 def clean_cards(cards):
     for i, bc in enumerate(cards['blackCards']):
