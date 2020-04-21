@@ -55,7 +55,10 @@ class Deck {
   drawWhiteCards(n) {
     let cards = [];
     for (let i = 0; i < n; i++) {
-      cards.push(this.drawWhiteCard());
+      const c = this.drawWhiteCard();
+      if (c !== undefined) {
+        cards.push(c);
+      }
     }
     return cards;
   }

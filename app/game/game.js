@@ -124,8 +124,14 @@ class Game extends GameInterface {
   }
 
   revealBlackCard() {
-    this.round.setBlackCard(this.deck.drawBlackCard());
-    this.notifyBlackCard();
+    const blackCard = this.deck.drawBlackCard();
+    if (blackCard === undefined) {
+      this.phase = PHASES[4];
+      this.endGame();
+    } else {
+      this.round.setBlackCard(blackCard);
+      this.notifyBlackCard();
+    }
   }
 
   roundStart() {
