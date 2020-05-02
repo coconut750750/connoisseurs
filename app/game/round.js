@@ -85,6 +85,10 @@ class Round {
     const winner = this.cardsToPlayer[this.winningCid];
     return { winner: winner, cards: this.playerToCards[winner] }
   }
+
+  getPlayers() {
+    return Object.keys(this.playerToCards);
+  }
 }
 
 module.exports = Round;

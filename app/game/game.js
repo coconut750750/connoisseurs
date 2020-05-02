@@ -16,7 +16,7 @@ class Game extends GameInterface {
     this.reset();
     this.pmanager = new PlayerManager(
       () => this.notifyPlayerUpdate(),
-      () => onEmpty(),
+      () => this.delete(),
     );
   }
 
@@ -150,6 +150,7 @@ class Game extends GameInterface {
     this.revealBlackCard();
 
     this.notifyDeckInfo();
+    this.notifyReadyPlayers();
   }
 
   playCards(player, cids) {
@@ -178,6 +179,8 @@ class Game extends GameInterface {
     this.round.playCards(player.name, removed);
     this.notifyPlayed(player);
 
+    this.notifyReadyPlayers();
+
     if (this.round.allPlayed()) {
       this.beginReveal();
     }
@@ -202,6 +205,7 @@ class Game extends GameInterface {
     player.useSwaps(count);
     player.addCards(this.deck.drawWhiteCards(count));
     player.sendHand();
+    this.notifyDeckInfo();
   }
 
   beginReveal() {
@@ -300,6 +304,10 @@ class Game extends GameInterface {
     if (this.phase === PHASES[1] && this.round.alreadyPlayed(player.name)) {
       player.send('played', { cards: this.round.getPlayed(player.name) });
     }
+  }
+
+  notifyReadyPlayers() {
+    this.broadcast('ready', { 'names': this.round.getPlayers() });
   }
 
   notifyBlackCard() {

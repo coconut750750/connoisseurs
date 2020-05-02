@@ -132,6 +132,7 @@ export default function Table(props) {
       
       <ScoreBoard
         players={props.players}
+        ready={props.ready}
         scoreboard={props.scoreboard}/>
       <br/>
 

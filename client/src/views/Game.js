@@ -33,6 +33,7 @@ export default function Game(props) {
   const [hand, setHand] = useState(new HandModel());
   const [played, setPlayed] = useState([]);
   const [blackcard, setBlack] = useState(new BlackCard(0, "", 0));
+  const [ready, setReady] = useState([]);
   const [deckinfo, setDeckInfo] = useState(new DeckInfo());
   const [reveals, setReveals] = useState([]);
   const [winner, setWinner] = useState("");
@@ -105,6 +106,11 @@ export default function Game(props) {
       setPlayed(parseWhiteCardList(cards));
     });
 
+    props.socket.on('ready', data => {
+      const { names } = data;
+      setReady(names);
+    });
+
     props.socket.on('revealed', data => {
       const { revealed } = data;
       let reveals = [];
@@ -158,6 +164,7 @@ export default function Game(props) {
           phase={phase}
           socket={props.socket}
           players={players}
+          ready={ready}
           me={me}
           scoreboard={scoreboard}
           deckinfo={deckinfo}

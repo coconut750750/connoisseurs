@@ -8,6 +8,8 @@ function PlayerBadge(props) {
       return "badge-light";
     } else if (props.player.isConnoisseur()) {
       return "badge-primary";
+    } else if (props.danger) {
+      return "badge-danger";
     } else {
       return "badge-dark";
     }

@@ -9,6 +9,7 @@ export default function ScoreBoard(props) {
         <div>
           <PlayerBadge
             key={player.name}
+            danger={!props.ready.includes(player.name)}
             player={player}/>
           <h6>{props.scoreboard.getPoints(player.name)}</h6>
         </div>
