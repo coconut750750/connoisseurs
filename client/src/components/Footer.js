@@ -6,7 +6,7 @@ function Footer() {
       <hr/>
       <small>cards from Cards Against Humanity</small>
       <br/>
-      <small>built by <a href="https://brandon-wang.me" target="_blank" rel="noopener noreferrer">brandon wang</a></small>
+      <small>dealt by <a href="https://brandon-wang.me" target="_blank" rel="noopener noreferrer">brandon wang</a></small>
       <br/>
       <br/>
     </div>
