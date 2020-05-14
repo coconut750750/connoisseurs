@@ -165,8 +165,9 @@ class Game extends GameInterface {
     }
 
     const count = cids.length;
-    if (this.round.currentBlackCard.blanks !== count) {
-      throw new Error("You didn't play the right amount of white cards");
+    const required = this.round.currentBlackCard.blanks;
+    if (required !== count) {
+      throw new Error(`You must play exactly ${required} white card(s)`);
     }
 
     const removed = player.removeCards(cids);

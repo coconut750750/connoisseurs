@@ -5,7 +5,7 @@ function HowTo(props) {
     <div className="text-left">
       <h4>How To Play</h4>
 
-      <p>Connoisseurs is a party game based off the popular game Cards Against Humanity.</p>
+      <p>Connoisseurs is a party game for horrible people based off the popular game Cards Against Humanity.</p>
       <br/>
 
       <p>To start, each player is dealt ten white cards and a "Connoisseur" is chosen at random. The Connoisseur draws a black card, reads it, and displays it to the other players. All other players try to fill in the blank(s) or answer the prompt on the black card with their white cards.</p>
