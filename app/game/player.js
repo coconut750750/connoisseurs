@@ -47,6 +47,10 @@ class Player {
     return this.swaps >= n;
   }
 
+  resetSwaps() {
+    this.swaps = 0;
+  }
+
   addCard(card) {
     this.hand.push(card);
   }

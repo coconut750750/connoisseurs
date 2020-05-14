@@ -93,6 +93,7 @@ class Game extends GameInterface {
     for (let p of this.pmanager.getAll()) {
       p.emptyHand();
       p.resetPoints();
+      p.resetSwaps();
     }
   }
 
