@@ -9,3 +9,50 @@
     text-align: center;
     margin: 0 auto;
 }
+
+body.dark {
+  background-color: #121212;
+}
+
+p {
+    margin: 0;
+}
+
+.dark h1, 
+.dark h2, 
+.dark h3, 
+.dark h4, 
+.dark h5, 
+.dark h6, 
+.dark p, 
+.dark small, 
+.dark span {
+    color: white;
+}
+
+.dark hr {
+    border-color: white;
+}
+
+.dark .badge-primary {
+    background-color: #bb86fc;
+}
+
+.dark .form-control {
+    background-color: #343a40;
+    border-color: #121212;
+    color: white;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.message {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    margin-bottom: 5vh;
+}

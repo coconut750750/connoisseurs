@@ -50,7 +50,7 @@ function Join(props) {
       </div>
       <br/>
 
-      {message && <div className="alert alert-danger p-2" role="alert">
+      {message && <div className="message alert alert-danger p-2" role="alert">
         {message}
       </div>}
     </div>

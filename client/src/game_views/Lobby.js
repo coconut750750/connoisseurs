@@ -16,11 +16,15 @@ export default function Lobby(props) {
 
   const canRenderAdmin = () => {
     return props.me !== undefined && props.me.isAdmin;
-  }
+  };
 
   const startGame = (selected) => {
     props.socket.emit('startGame', { options: { sets: selected, roundsPerSwap: parseInt(swaps) }});
-  }
+  };
+
+  const exitGame = () => {
+    props.socket.emit('exitGame', {});
+  };
 
   useEffect(() => {
     getSets().then(data => {
@@ -108,9 +112,19 @@ export default function Lobby(props) {
             <div>
               {renderSwapSelection()}
               <br/>
-              <button type="button" className="btn btn-dark" onClick={ () => startGame(selected) }>Start Game</button>
             </div>
           }
+
+          <div className="button-row d-flex justify-content-around">
+            <button type="button" className="btn btn-dark"
+              onClick={ () => exitGame() }>
+              {canRenderAdmin() ? "End Game" : "Leave Game"}
+            </button>
+            
+            {canRenderAdmin() &&
+              <button type="button" className="btn btn-dark" onClick={ () => startGame(selected) }>Start Game</button>
+            }
+          </div>
         </div>
         <div className="col-3"></div>
       </div>
