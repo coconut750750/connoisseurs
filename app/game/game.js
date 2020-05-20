@@ -73,7 +73,7 @@ class Game extends GameInterface {
     if (this.deck.whiteDeck.length === 0) {
       throw new Error("There are no white cards in the selected sets")
     }
-    if (this.deck.blackDeck === 0) {
+    if (this.deck.blackDeck.length === 0) {
       throw new Error("There are no black cards in the selected sets")
     }
 

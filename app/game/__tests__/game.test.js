@@ -6,7 +6,7 @@ const threePlayerStart = (game) => {
   game.addPlayer("p2", undefined);
   game.addPlayer("p3", undefined);
 
-  game.start({ sets: ['Base Set']});
+  game.start(['Base Set'], 0);
 };
 
 const setConnoisseur = (game, name) => {
@@ -51,7 +51,7 @@ describe('game start', () => {
     const game = new Game('code', () => {}, undefined, () => {});
     game.addPlayer("p1", undefined);
 
-    expect(() => game.start(undefined)).toThrow();
+    expect(() => game.start([], 0)).toThrow();
   });
 
   test('one player that is duplicated fails to start', () => {
@@ -59,7 +59,7 @@ describe('game start', () => {
     game.addPlayer("p1", undefined);
     game.addPlayer("p1", undefined);
 
-    expect(() => game.start(undefined)).toThrow();
+    expect(() => game.start([], 0)).toThrow();
   });
 
   test('three players should start', () => {
