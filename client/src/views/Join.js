@@ -35,19 +35,24 @@ function Join(props) {
     <div>
       <h4>Join Game</h4>
 
-      <input type="text" className="form-control" placeholder="Enter game code (4 characters)" 
-        value={gameCode} 
-        onChange={ e => setGameCode(e.target.value.toLowerCase()) }/>
-      <br/>
-      <input type="text" className="form-control" placeholder="Enter your name" 
-        value={name} 
-        onChange={ e => setName(e.target.value) }/>
-      <br/>
+      <form onSubmit={ (e) => {
+        e.preventDefault();
+        joinGame();
+      } }>
+        <input type="text" className="form-control" placeholder="Enter game code (4 characters)" 
+          value={gameCode} 
+          onChange={ e => setGameCode(e.target.value.toLowerCase()) }/>
+        <br/>
+        <input type="text" className="form-control" placeholder="Enter your name" 
+          value={name} 
+          onChange={ e => setName(e.target.value) }/>
+        <br/>
 
-      <div className="button-row d-flex justify-content-around">
-        <button type="button" className="btn btn-dark" onClick={props.goBack}>Back</button>
-        <button type="button" className="btn btn-dark" onClick={ () => joinGame() }>Join</button>
-      </div>
+        <div className="button-row d-flex justify-content-around">
+          <button type="button" className="btn btn-dark" onClick={props.goBack}>Back</button>
+          <button type="submit" className="btn btn-dark">Join</button>
+        </div>
+      </form>
       <br/>
 
       {message && <div className="message alert alert-danger p-2" role="alert">
