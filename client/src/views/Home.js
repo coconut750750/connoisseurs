@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Donate from '../components/Donate';
+
 function Home(props) {
   return (
     <div>
@@ -8,6 +10,11 @@ function Home(props) {
         <button type="button" className="btn btn-dark" onClick={props.createGame}>Create Game</button>
         <button type="button" className="btn btn-dark" onClick={props.viewHowTo}>How to Play</button>
       </div>
+
+      <br/>
+      <br/>
+      
+      <Donate/>
     </div>
   )
 }
