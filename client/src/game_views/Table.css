@@ -5,6 +5,9 @@
     margin: 0 auto;
 
     padding-top: 2px;
+}
+
+.board.short {
     height: 300px; 
     overflow-y: auto; 
 }

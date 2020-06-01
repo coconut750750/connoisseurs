@@ -35,6 +35,10 @@ export default function Table(props) {
     return !alreadyPlayed() && !props.me.isConnoisseur();
   };
 
+  const handVisible = () => {
+    return props.phase === SELECTION;
+  };
+
   const playWhite = (selected) => {
     props.socket.emit('playWhite', { cids: selected.map(k => k.id) });
     setSelected([]);
@@ -69,7 +73,7 @@ export default function Table(props) {
     }
   };
 
-  const renderAction = (selectedWinner) => {
+  const renderActionButtons = (selectedWinner) => {
     if (props.phase === SELECTION) {
       return [
         <button type="button" className="btn btn-dark" disabled={!canPlay()} onClick={ () => playWhite(selected) }>Submit</button>,
@@ -141,7 +145,7 @@ export default function Table(props) {
         deckinfo={props.deckinfo}/>
       <br/>
 
-      <div className="board">
+      <div className={`board ${handVisible() ? "short" : "full"}`}>
         <Card
           card={props.blackcard}
           color={"black"}/>
@@ -153,16 +157,18 @@ export default function Table(props) {
         <br/>
 
         <div className="d-flex justify-content-around">
-          {renderAction(selectedWinner)}
+          {renderActionButtons(selectedWinner)}
         </div>
         
         <br/>
 
-        <Hand
-          hand={props.hand}
-          canSelect={props.phase === SELECTION}
-          selected={props.phase === SELECTION ? selected : []}
-          select={ (card) => updateSelected(card, selected)}/>
+        {handVisible() &&
+          <Hand
+            hand={props.hand}
+            canSelect={props.phase === SELECTION}
+            selected={props.phase === SELECTION ? selected : []}
+            select={ (card) => updateSelected(card, selected)}/>
+        }
         <br/>
       </div>
     </div>
