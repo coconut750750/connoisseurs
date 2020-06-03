@@ -8,7 +8,7 @@
 }
 
 .board.short {
-    height: 300px; 
+    height: calc(var(--cardheight) * 1.5); 
     overflow-y: auto; 
 }
 

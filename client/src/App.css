@@ -1,8 +1,49 @@
 .App {
-    --appwidth: 70vw;
-    --handwidth: calc(var(--appwidth) * 0.9);
-    --cardwidth: calc(var(--handwidth) / 11 * 2);
-    --cardheight: calc(var(--cardwidth) * 1.38);
+    --appwidth: 90vw;
+    --handfrac: 0.9;
+    --cardwidthfrac: calc(2 / 15);
+    --cardheightfrac: 1.35;
+    --cardfontsize: 0.8rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .App {
+    --appwidth: 90vw;
+    --handfrac: 0.9;
+    --cardwidthfrac: calc(2 / 13);
+    --cardfontsize: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .App {
+    --appwidth: 90vw;
+    --handfrac: 0.9;
+    --cardwidthfrac: calc(2 / 10);
+    --cardfontsize: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    --appwidth: 96vw;
+    --handfrac: 0.9;
+    --cardwidthfrac: calc(3 / 10);
+    --cardheightfrac: 1.25;
+    --cardfontsize: 0.7rem;
+  }
+}
+
+.App {
+    --numcards: 10;
+    --oneless: calc(var(--numcards) - 1);
+
+    --handwidth: calc(var(--appwidth) * var(--handfrac));
+    --cardwidth: calc(var(--appwidth) * var(--cardwidthfrac));
+    --cardheight: calc(var(--cardwidth) * var(--cardheightfrac));
+
+    --overlapfrac: calc(var(--handfrac) / (var(--oneless) * var(--cardwidthfrac)) - 1 / var(--oneless));
+    --cardoverlap: calc(var(--cardwidth) * (1 - var(--overlapfrac)));
 
     width: var(--appwidth);
 

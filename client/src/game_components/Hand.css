@@ -11,7 +11,8 @@
     height: var(--cardheight);
 }
 
-.card-hover.active:hover ~ .card {
+.card-hover.active:hover ~ .card,
+.card-hover.active:active ~ .card {
     transform: translateY(-50px);
     z-index: 1;
 }
@@ -22,7 +23,7 @@
 
 .card-hover {
     position: absolute;
-    width: 50%;
+    width: calc(100% * var(--overlapfrac));
     height: 100%;
     z-index: 2;
 }
@@ -32,37 +33,37 @@
 }
 
 .hovercard:nth-child(2) {
-    left: calc(-1 * var(--cardwidth) * 0.5);
+    left: calc(-1 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(3) {
-    left: calc(-2 * var(--cardwidth) * 0.5);
+    left: calc(-2 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(4) {
-    left: calc(-3 * var(--cardwidth) * 0.5);
+    left: calc(-3 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(5) {
-    left: calc(-4 * var(--cardwidth) * 0.5);
+    left: calc(-4 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(6) {
-    left: calc(-5 * var(--cardwidth) * 0.5);
+    left: calc(-5 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(7) {
-    left: calc(-6 * var(--cardwidth) * 0.5);
+    left: calc(-6 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(8) {
-    left: calc(-7 * var(--cardwidth) * 0.5);
+    left: calc(-7 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(9) {
-    left: calc(-8 * var(--cardwidth) * 0.5);
+    left: calc(-8 * var(--cardoverlap));
 }
 
 .hovercard:nth-child(10) {
-    left: calc(-9 * var(--cardwidth) * 0.5);
+    left: calc(-9 * var(--cardoverlap));
 }
