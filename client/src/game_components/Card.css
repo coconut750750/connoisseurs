@@ -8,8 +8,23 @@
 }
 
 .card h6 {
-    font-size: var(--cardfontsize);
     margin: 0;
+}
+
+.card h6.large {
+    font-size: calc(1.05 * var(--cardfontsize));
+}
+
+.card h6.medium {
+    font-size: var(--cardfontsize);
+}
+
+.card h6.small {
+    font-size: calc(0.9 * var(--cardfontsize));
+}
+
+.card h6.xs {
+    font-size: calc(0.8 * var(--cardfontsize));
 }
 
 .card.white h6 {

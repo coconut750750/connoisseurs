@@ -2,25 +2,34 @@
     --appwidth: 90vw;
     --handfrac: 0.9;
     --cardwidthfrac: calc(2 / 15);
-    --cardheightfrac: 1.35;
-    --cardfontsize: 0.8rem;
+    --cardheightfrac: 1.4;
+    --cardfontsize: 1rem;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1280px) {
   .App {
-    --appwidth: 90vw;
+    --appwidth: 92vw;
     --handfrac: 0.9;
     --cardwidthfrac: calc(2 / 13);
-    --cardfontsize: 0.8rem;
   }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1080px) {
   .App {
-    --appwidth: 90vw;
+    --appwidth: 94vw;
     --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 10);
-    --cardfontsize: 0.8rem;
+    --cardwidthfrac: calc(2 / 11);
+    --cardfontsize: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .App {
+    --appwidth: 96vw;
+    --handfrac: 0.9;
+    --cardwidthfrac: calc(2 / 9);
+    --cardheightfrac: 1.45;
+    --cardfontsize: 0.85rem;
   }
 }
 
@@ -28,9 +37,19 @@
   .App {
     --appwidth: 96vw;
     --handfrac: 0.9;
-    --cardwidthfrac: calc(3 / 10);
-    --cardheightfrac: 1.25;
-    --cardfontsize: 0.7rem;
+    --cardwidthfrac: calc(2 / 7);
+    --cardheightfrac: 1.45;
+    --cardfontsize: 0.75rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .App {
+    --appwidth: 96vw;
+    --handfrac: 0.9;
+    --cardwidthfrac: calc(2 / 6);
+    --cardheightfrac: 1.5;
+    --cardfontsize: 0.75rem;
   }
 }
 

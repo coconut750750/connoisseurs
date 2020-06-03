@@ -31,10 +31,22 @@ export default function Card(props) {
     return components;
   };
 
+  const getTextClass = text => {
+    if (text === undefined || text.length < 75) {
+      return "large";
+    } else if (text.length < 150) {
+      return "medium";
+    } else if (text.length < 200) {
+      return "small";
+    } else {
+      return "xs";
+    }
+  };
+
   return (
     <div className={getDisplayClass()}  onClick={ () => { if (props.onClick !== undefined) props.onClick(props.card); } }>
       <div className="card-body">
-        <h6 className="text-left">{processText(props.card?.text)}</h6>
+        <h6 className={`text-left ${getTextClass(props.card?.text)}`}>{processText(props.card?.text)}</h6>
       </div>
     </div>
   );
