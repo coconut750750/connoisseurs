@@ -63,13 +63,33 @@ export default function Lobby(props) {
   const renderSetSelection = (sets, selected) => {
     return (
       <div>
-        <button type="button" className="btn btn-dark btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All</button>
+        <button type="button" className="btn btn-dark btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All Sets</button>
         <br/>
         <br/>
         {renderSets(sets, selected)}
       </div>
+    );
+  };
+
+  const renderSplitSetSelection = (sets, selected) => {
+    const half = Math.ceil(sets.length / 2);
+    return (
+      <div>
+        <button type="button" className="btn btn-dark btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All Sets</button>
+        <br/>
+        <br/>
+        <div className="row">
+          <div className="col-6">
+            {renderSets(sets.slice(0, half), selected)}
+          </div>
+          <div className="col-6">
+            {renderSets(sets.slice(half), selected)}
+          </div>
+        </div>
+      </div>
     )
   };
+
 
   const renderSwapSelection = () => {
     return (
@@ -91,6 +111,10 @@ export default function Lobby(props) {
       </div>
     );
   };
+
+  const isSmallScreen = () => {
+    return window.innerWidth <= 700;
+  };
   
   return (
     <div>
@@ -98,10 +122,12 @@ export default function Lobby(props) {
       <br/>
 
       <div className="row">
-        <div className="col-3">
-          { canRenderAdmin() ? renderSetSelection(sets, selected) : undefined }
-        </div>
-        <div className="col-6">
+        { !isSmallScreen() &&
+          <div className="col-3">
+            { canRenderAdmin() && renderSetSelection(sets, selected) }
+          </div>
+        }
+        <div className={isSmallScreen() ? 'col-12' : 'col-6'}>
           <PlayerList
             players={props.players}
             remove={ canRenderAdmin() ? ((player) => props.socket.emit('removePlayer', { name: player.name })) : undefined }
@@ -126,8 +152,11 @@ export default function Lobby(props) {
             }
           </div>
         </div>
-        <div className="col-3"></div>
       </div>
+
+      <br/>
+      <br/>
+      { isSmallScreen() && renderSplitSetSelection(sets, selected) }
     </div>
   );
 }
