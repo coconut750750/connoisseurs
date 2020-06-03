@@ -60,41 +60,33 @@ export default function Lobby(props) {
     );
   };
 
-  const renderSetSelection = (sets, selected) => {
-    return (
-      <div>
-        <button type="button" className="btn btn-dark btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All Sets</button>
-        <br/>
-        <br/>
-        {renderSets(sets, selected)}
-      </div>
-    );
-  };
-
   const renderSplitSetSelection = (sets, selected) => {
-    const half = Math.ceil(sets.length / 2);
+    const third = Math.ceil(sets.length / 3);
+    const twothird = Math.ceil(sets.length / 3 * 2);
     return (
       <div>
         <button type="button" className="btn btn-dark btn-sm" onClick={ () => toggleSelected(sets, selected) }>Toggle All Sets</button>
         <br/>
         <br/>
         <div className="row">
-          <div className="col-6">
-            {renderSets(sets.slice(0, half), selected)}
+          <div className="col-4">
+            {renderSets(sets.slice(0, third), selected)}
           </div>
-          <div className="col-6">
-            {renderSets(sets.slice(half), selected)}
+          <div className="col-4">
+            {renderSets(sets.slice(third, twothird), selected)}
+          </div>
+          <div className="col-4">
+            {renderSets(sets.slice(twothird), selected)}
           </div>
         </div>
       </div>
     )
   };
 
-
   const renderSwapSelection = () => {
     return (
-      <div>
-        <h6>Number of rounds per card swap</h6>
+      <div id="swap-selection">
+        <h6>Number of rounds per card swap: </h6>
         <select className="form-control" defaultValue={0} onChange={ e => setSwaps(e.target.value) }>
           <option value={0}>No card swaps</option>
           <option value={1}>1</option>
@@ -112,51 +104,35 @@ export default function Lobby(props) {
     );
   };
 
-  const isSmallScreen = () => {
-    return window.innerWidth <= 700;
-  };
-  
   return (
     <div>
       <h6>Waiting for players...</h6>
-      <br/>
 
       <div className="row">
-        { !isSmallScreen() &&
-          <div className="col-3">
-            { canRenderAdmin() && renderSetSelection(sets, selected) }
-          </div>
-        }
-        <div className={isSmallScreen() ? 'col-12' : 'col-6'}>
+        <div className="col">
           <PlayerList
             players={props.players}
             remove={ canRenderAdmin() ? ((player) => props.socket.emit('removePlayer', { name: player.name })) : undefined }
             removeExempt={props.me}/>
           <br/>
-
-          {canRenderAdmin() &&
-            <div>
-              {renderSwapSelection()}
-              <br/>
-            </div>
-          }
-
-          <div className="button-row d-flex justify-content-around">
-            <button type="button" className="btn btn-dark"
-              onClick={ () => exitGame() }>
-              {canRenderAdmin() ? "End Game" : "Leave Game"}
-            </button>
-            
-            {canRenderAdmin() &&
-              <button type="button" className="btn btn-dark" onClick={ () => startGame(selected) }>Start Game</button>
-            }
-          </div>
+          {canRenderAdmin() && renderSwapSelection()}
         </div>
       </div>
 
       <br/>
+      { canRenderAdmin() && renderSplitSetSelection(sets, selected) }
+
       <br/>
-      { isSmallScreen() && renderSplitSetSelection(sets, selected) }
+      <div className="button-row d-flex justify-content-around">
+        <button type="button" className="btn btn-dark"
+          onClick={ () => exitGame() }>
+          {canRenderAdmin() ? "End Game" : "Leave Game"}
+        </button>
+        
+        {canRenderAdmin() &&
+          <button type="button" className="btn btn-dark" onClick={ () => startGame(selected) }>Start Game</button>
+        }
+      </div>
     </div>
   );
 }

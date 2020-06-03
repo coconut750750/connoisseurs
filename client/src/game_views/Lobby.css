@@ -1,3 +1,13 @@
+#swap-selection h6 {
+    display: inline;
+}
+
+#swap-selection select.form-control {
+    width: 175px;
+    display: inline;
+    margin-left: 16px;
+}
+
 .custom-checkbox {
     float: left;
     width: 100%;
