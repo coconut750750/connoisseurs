@@ -150,7 +150,7 @@ export default function Game(props) {
   }, [props.gameCode, props.name, props.socket, disappearCallback]);
 
   return (
-    <div>
+    <div id="game">
       <GameCodeBadge gameCode={props.gameCode}/>
 
       {phase === LOBBY &&

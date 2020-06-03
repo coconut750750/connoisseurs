@@ -25,7 +25,7 @@ function Create(props) {
   }
 
   return (
-    <div>
+    <div id="create">
       <h4>Create Game</h4>
 
       <form onSubmit={ (e) => {

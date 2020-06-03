@@ -2,7 +2,7 @@ import React from 'react';
 
 function HowTo(props) {
   return (
-    <div className="text-left">
+    <div id="howto" className="text-left">
       <h4>How To Play</h4>
 
       <p>Connoisseurs is a party game for horrible people based off the popular game Cards Against Humanity.</p>

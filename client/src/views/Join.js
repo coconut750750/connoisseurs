@@ -32,7 +32,7 @@ function Join(props) {
   };
 
   return (
-    <div>
+    <div id="join">
       <h4>Join Game</h4>
 
       <form onSubmit={ (e) => {

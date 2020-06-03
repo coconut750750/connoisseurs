@@ -108,6 +108,11 @@ p {
     box-shadow: none;
 }
 
+#home, #create, #join, #howto {
+    width: 50vw;
+    margin: 0 auto;
+}
+
 .message {
     position: fixed;
     bottom: 0;
