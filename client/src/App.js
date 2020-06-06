@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
 import io from 'socket.io-client';
@@ -53,11 +53,11 @@ function App() {
     reset();
   };
 
-  const reset = () => {
+  const reset = useCallback(() => {
     goHome();
     setGameCode("");
     setName("");
-  };
+  }, []);
 
   const goHome = () => {
     window.history.pushState({}, 'Home', '/');
@@ -89,7 +89,7 @@ function App() {
         });
       } 
     }
-  }, [viewState, socket]);
+  }, [viewState, socket, reset]);
 
   const views = {
     [HOME]:   <Home 
