@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import debounce from "lodash/debounce";
 
-import { checkName, checkCode } from '../api/register';
+import { checkName } from '../api/register';
 
 function Join(props) {
   const [message, setMessage] = useState("");
