@@ -4,7 +4,7 @@
 }
 
 .card .card-body {
-    padding: 5%;
+    padding: 4%;
 }
 
 .card h6 {
@@ -20,11 +20,11 @@
 }
 
 .card h6.small {
-    font-size: calc(0.9 * var(--cardfontsize));
+    font-size: calc(0.88 * var(--cardfontsize));
 }
 
 .card h6.xs {
-    font-size: calc(0.8 * var(--cardfontsize));
+    font-size: calc(0.75 * var(--cardfontsize));
 }
 
 .card.white h6 {
@@ -47,6 +47,16 @@
 .card.black {
     width: var(--cardwidth);
     height: var(--cardheight);
+}
+
+.card.white.small,
+.card.black.small {
+    width: calc(0.8 * var(--cardwidth));
+    height: calc(0.8 * var(--cardheight));
+}
+
+.card.small h6 {
+    font-size: calc(0.8 * var(--cardfontsize));
 }
 
 .card.white.toggled {

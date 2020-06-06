@@ -2,7 +2,7 @@
     --appwidth: 90vw;
     --handfrac: 0.9;
     --cardwidthfrac: calc(2 / 15);
-    --cardheightfrac: 1.4;
+    --cardheightfrac: 1.38;
     --cardfontsize: 1rem;
 }
 
@@ -28,8 +28,8 @@
     --appwidth: 96vw;
     --handfrac: 0.9;
     --cardwidthfrac: calc(2 / 9);
-    --cardheightfrac: 1.45;
-    --cardfontsize: 0.85rem;
+/*    --cardheightfrac: 1.45;
+*/    --cardfontsize: 0.85rem;
   }
 }
 
@@ -38,7 +38,7 @@
     --appwidth: 96vw;
     --handfrac: 0.9;
     --cardwidthfrac: calc(2 / 7);
-    --cardheightfrac: 1.45;
+    /*--cardheightfrac: 1.45;*/
     --cardfontsize: 0.75rem;
   }
 }
@@ -48,7 +48,7 @@
     --appwidth: 96vw;
     --handfrac: 0.9;
     --cardwidthfrac: calc(2 / 6);
-    --cardheightfrac: 1.5;
+    /*--cardheightfrac: 1.5;*/
     --cardfontsize: 0.75rem;
   }
 }
@@ -108,10 +108,38 @@ p {
     box-shadow: none;
 }
 
-#home, #create, #join, #howto {
+#create, #join, #howto {
     min-width: 260px;
     width: 50vw;
     margin: 0 auto;
+}
+
+#home .display-outer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5vh;
+    margin-bottom: calc(5vh + 10px);
+}
+
+#home .card-display {
+    display: flex;
+    justify-content: center;
+}
+
+#home #display-1 .card.black {
+    transform: rotate(-10deg) translateX(10px);
+}
+
+#home #display-1 .card.white {
+    transform: rotate(5deg) translateX(-10px) translateY(10px);
+}
+
+#home #display-2 .card.black {
+    transform: rotate(-2deg);
+}
+
+#home #display-2 .card.white {
+    transform: rotate(10deg) translateX(-10px) translateY(5px);
 }
 
 .message {
