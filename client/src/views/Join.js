@@ -6,7 +6,7 @@ import { checkName, checkCode } from '../api/register';
 function Join(props) {
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
-  const [gameCode, setGameCode] = useState("");
+  const [gameCode, setGameCode] = useState(props.urlGameCode);
 
   const debounceDisappear = () => setMessage("");
   const disappearCallback = useCallback(debounce(debounceDisappear, 3000), []);
@@ -33,6 +33,7 @@ function Join(props) {
       } }>
         <input type="text" className="form-control" placeholder="Enter game code (4 characters)" 
           value={gameCode} 
+          disabled={props.urlGameCode !== undefined}
           onChange={ e => setGameCode(e.target.value.toLowerCase()) }/>
         <br/>
         <input type="text" className="form-control" placeholder="Enter your name" 

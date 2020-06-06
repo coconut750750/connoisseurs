@@ -106,6 +106,7 @@ export default function Lobby(props) {
 
   return (
     <div>
+      <h6>Click on the game code for a shareable link!</h6>
       <h6>Waiting for players...</h6>
 
       <div className="row">
