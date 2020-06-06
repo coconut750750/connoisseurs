@@ -3,5 +3,6 @@ export default class BlackCard {
     this.id = id;
     this.text = text;
     this.blanks = blanks;
+    this.color = "black";
   }
 }

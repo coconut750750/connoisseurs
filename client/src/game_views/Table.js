@@ -147,8 +147,7 @@ export default function Table(props) {
 
       <div className={`board ${handVisible() ? "short" : "full"}`}>
         <Card
-          card={props.blackcard}
-          color={"black"}/>
+          card={props.blackcard}/>
 
         {renderWhiteBoard(selected, selectedWinner)}
       </div>

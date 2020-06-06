@@ -7,7 +7,7 @@ export default function Card(props) {
     const toggled = props.toggled ? "toggled" : "";
     const active = props.active ? "active" : "";
     const heightClass = props.short ? "short" : "";
-    return `card ${props.color} ${toggled} ${active} ${heightClass}`;
+    return `card ${props.card?.color} ${toggled} ${active} ${heightClass}`;
   };
 
   const italicize = text => {

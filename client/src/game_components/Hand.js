@@ -18,7 +18,6 @@ export default function Hand(props) {
           <div className={cardInteractClass()} onClick={ () => { if (props.canSelect) props.select(c); } }/>
           <Card
             card={c}
-            color={"white"}
             toggled={props.selected.map(k => k.id).includes(c.id)}/>
         </div>
       );
