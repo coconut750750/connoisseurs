@@ -12,22 +12,14 @@ function Join(props) {
   const disappearCallback = useCallback(debounce(debounceDisappear, 3000), []);
 
   const joinGame = async () => {
-    checkCode(gameCode).then(res => {
+    checkName(name, gameCode).then(res => {
       if (!res.valid) {
         setMessage(res.message);
         disappearCallback();
         return;
       }
 
-      checkName(name, gameCode).then(res => {
-        if (!res.valid) {
-          setMessage(res.message);
-          disappearCallback();
-          return;
-        }
-
-        props.join(gameCode, name);
-      });
+      props.join(gameCode, name);
     });
   };
 

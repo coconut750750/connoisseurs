@@ -24,10 +24,6 @@ app.use(bodyParser.json());
 app.io = io;
 app.gm = new GameManager(dev);
 
-app.get('/ping', (req, res) => {
-  res.send();
-});
-
 app.use(function(req, res, next) {
   req.gm = app.gm;
   req.io = app.io;
