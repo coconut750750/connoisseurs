@@ -1,9 +1,9 @@
 .bmc-button {
-    padding: 5px 10px 5px 5px !important;
+    padding: 5px 10px 5px 10px !important;
     height: 35px !important;
     display: inline-flex !important;
     color: #ffffff !important;
-    background-color: #79D6B5 !important;
+    background-color: #FF5F5F !important;
     border: 1px solid transparent !important;
     border-radius: 5px !important;
     font-size: 15px !important;
