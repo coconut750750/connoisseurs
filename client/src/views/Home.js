@@ -10,7 +10,7 @@ import WhiteCard from '../models/whitecard';
 let displays = [
   [new BlackCard(0, 'Hey baby, come back to my place and I’ll show you ___.', 1), new WhiteCard(1, 'A PowerPoint presentation.')],
   [new BlackCard(0, "This is the prime of my life. I'm young, hot, and full of ___.", 1), new WhiteCard(1, 'Crippling debt.')],
-  [new BlackCard(0, "I'm not like the rest of you. I'm too rich and busy for ___.", 1), new WhiteCard(1, 'Consent.')],
+  [new BlackCard(0, "What helps Obama unwind?", 1), new WhiteCard(1, 'Michelle Obama\'s arms.')],
   [new BlackCard(0, "After blacking out during New Year's Eve, I was awoken by ___.", 1), new WhiteCard(1, 'Another shitty year.')],
   [new BlackCard(0, "I drink to forget ___.", 1), new WhiteCard(1, 'My relationship status.')],
 ];
