@@ -34,10 +34,6 @@ export default function Table(props) {
     return !alreadyPlayed() && !props.me.isConnoisseur();
   };
 
-  const handVisible = () => {
-    return props.phase === SELECTION;
-  };
-
   const playWhite = (selected) => {
     props.socket.emit('playWhite', { cids: selected.map(k => k.id) });
     setSelected([]);

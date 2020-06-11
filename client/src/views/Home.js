@@ -25,7 +25,7 @@ function Home(props) {
   };
   useWindowResize(updateScale);
 
-  const [randomDisplays, setRandomDisplays] = useState(_.sampleSize(displays, 2));
+  const [randomDisplays] = useState(_.sampleSize(displays, 2));
 
   return (
     <div id="home">
