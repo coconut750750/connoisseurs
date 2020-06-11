@@ -1,0 +1,16 @@
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0 auto;
+
+    padding-top: 2px;
+    width: 100%;
+    min-width: 576px;
+    height: calc(var(--cardheight) * 1.5); 
+    overflow-y: auto; 
+}
+
+.board::-webkit-scrollbar {
+    display: none;
+}

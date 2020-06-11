@@ -1,23 +1,5 @@
-.board {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin: 0 auto;
-
-    padding-top: 2px;
-}
-
-.board.short {
-    height: calc(var(--cardheight) * 1.5); 
-    overflow-y: auto; 
-}
-
 .below-board {
     box-shadow: 0 -4px 4px -4px #ededed;
     z-index: 1;
     position: relative;
-}
-
-.board::-webkit-scrollbar {
-    display: none;
 }

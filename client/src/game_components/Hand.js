@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import useWindowResize from '../components/UseWindowResize';
 
 import Card from "./Card";
 
 import "./Hand.css";
 
+
 export default function Hand(props) {
+  const calcScale = () => Math.min(window.innerWidth / 640, 1);
+  const [scale, setScale] = useState(calcScale());
+  const updateScale = () => {
+    setScale(calcScale());
+  };
+  useWindowResize(updateScale);
+
   const cardInteractClass = () => {
     const active = props.canSelect ? "active" : "";
     return `card-hover ${active}`;
@@ -31,8 +40,10 @@ export default function Hand(props) {
         <span class="material-icons">autorenew</span>
         <h6>{props.hand.swaps}</h6>
       </div>
-      <div className="hand">
-        {renderCards()}
+      <div className="d-flex justify-content-center">
+        <div className="hand" style={{transform: `scale(${scale})`}}>
+          {renderCards()}
+        </div>
       </div>
     </div>
   );

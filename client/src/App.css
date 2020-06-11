@@ -1,67 +1,32 @@
 .App {
-    --appwidth: 90vw;
-    --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 15);
-    --cardheightfrac: 1.38;
-    --cardfontsize: 1rem;
+    --overlapfrac: 0.7;
 }
 
 @media only screen and (max-width: 1280px) {
   .App {
-    --appwidth: 92vw;
-    --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 13);
+    --overlapfrac: 0.5;
   }
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 960px) {
   .App {
-    --appwidth: 94vw;
-    --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 11);
-    --cardfontsize: 0.9rem;
+    --overlapfrac: 0.4;
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 720px) {
   .App {
-    --appwidth: 96vw;
-    --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 9);
-/*    --cardheightfrac: 1.45;
-*/    --cardfontsize: 0.85rem;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .App {
-    --appwidth: 96vw;
-    --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 7);
-    /*--cardheightfrac: 1.45;*/
-    --cardfontsize: 0.75rem;
-  }
-}
-
-@media only screen and (max-width: 400px) {
-  .App {
-    --appwidth: 96vw;
-    --handfrac: 0.9;
-    --cardwidthfrac: calc(2 / 6);
-    /*--cardheightfrac: 1.5;*/
-    --cardfontsize: 0.75rem;
+    --overlapfrac: 0.3;
   }
 }
 
 .App {
-    --numcards: 10;
-    --oneless: calc(var(--numcards) - 1);
+    --appwidth: 90vw;
+    --cardfontsize: 1rem;
+    --cardwidth: 150px;
+    --cardheight: 210px;
 
-    --handwidth: calc(var(--appwidth) * var(--handfrac));
-    --cardwidth: calc(var(--appwidth) * var(--cardwidthfrac));
-    --cardheight: calc(var(--cardwidth) * var(--cardheightfrac));
-
-    --overlapfrac: calc(var(--handfrac) / (var(--oneless) * var(--cardwidthfrac)) - 1 / var(--oneless));
+    --handwidth: calc(var(--cardwidth) * var(--overlapfrac) * 9 + var(--cardwidth));
     --cardoverlap: calc(var(--cardwidth) * (1 - var(--overlapfrac)));
 
     width: var(--appwidth);
@@ -119,6 +84,8 @@ p {
     justify-content: space-around;
     margin-top: 5vh;
     margin-bottom: calc(5vh + 10px);
+    min-width: 640px;
+    width: 100%;
 }
 
 #home .card-display {

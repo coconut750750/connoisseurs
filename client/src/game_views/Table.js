@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import ScoreBoard from '../game_components/ScoreBoard';
 import Hand from '../game_components/Hand';
-import Card from '../game_components/Card';
-import CardStack from '../game_components/CardStack';
+import Board from '../game_components/Board';
 import Deck from '../game_components/Deck';
 
 import WhiteCard from '../models/whitecard';
@@ -104,31 +103,6 @@ export default function Table(props) {
     }
   };
 
-  const renderWhiteBoard = (selected, selectedWinner) => {
-    if (props.phase === SELECTION) {
-      if (!alreadyPlayed()) {
-        return <CardStack cards={selected}/>;
-      } else {
-        return <CardStack cards={props.played}/>;
-      }
-    } else if (props.phase === REVEAL) {
-      return props.reveals.map(stack => (
-        <CardStack
-          cards={stack}/>
-      ));
-    } else if (props.phase === JUDGING) {
-      return props.reveals.map(stack => (
-        <CardStack
-          highlighted={stack.map(k => k.id).includes(selectedWinner.id)}
-          active={props.me.isConnoisseur()}
-          onClick={(card) => setSelectedWinner(card)}
-          cards={stack}/>
-      ));
-    } else if (props.phase === WINNER) {
-      return <CardStack cards={props.winCards}/>;
-    }
-  };
-
   return (
     <div>
       {renderHeader(props.phase, props.played.length === 0, props.me.isConnoisseur(), props.winner)}
@@ -145,12 +119,18 @@ export default function Table(props) {
         deckinfo={props.deckinfo}/>
       <br/>
 
-      <div className={`board ${handVisible() ? "short" : "full"}`}>
-        <Card
-          card={props.blackcard}/>
+      <Board
+        phase={props.phase}
+        blackcard={props.blackcard}
+        reveals={props.reveals}
+        selected={selected}
+        played={props.played}
+        winCards={props.winCards}
+        alreadyPlayed={alreadyPlayed()}
+        isConnoisseur={props.me.isConnoisseur()}
+        selectedWinner={selectedWinner}
+        setSelectedWinner={setSelectedWinner}/>
 
-        {renderWhiteBoard(selected, selectedWinner)}
-      </div>
 
       <div className="below-board">
         <br/>
@@ -161,13 +141,11 @@ export default function Table(props) {
         
         <br/>
 
-        {handVisible() &&
-          <Hand
-            hand={props.hand}
-            canSelect={props.phase === SELECTION}
-            selected={props.phase === SELECTION ? selected : []}
-            select={ (card) => updateSelected(card, selected)}/>
-        }
+        <Hand
+          hand={props.hand}
+          canSelect={props.phase === SELECTION}
+          selected={props.phase === SELECTION ? selected : []}
+          select={ (card) => updateSelected(card, selected)}/>
         <br/>
       </div>
     </div>

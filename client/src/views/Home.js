@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 
 import Donate from '../components/Donate';
+import useWindowResize from '../components/UseWindowResize';
+
 import Card from '../game_components/Card';
 
 import BlackCard from '../models/blackcard';
@@ -16,8 +18,14 @@ let displays = [
 ];
 
 function Home(props) {
-  const randomDisplays = _.sampleSize(displays, 2);
-  console.log(randomDisplays);
+  const calcScale = () => Math.min(window.innerWidth / 640, 1);
+  const [scale, setScale] = useState(calcScale());
+  const updateScale = () => {
+    setScale(calcScale());
+  };
+  useWindowResize(updateScale);
+
+  const [randomDisplays, setRandomDisplays] = useState(_.sampleSize(displays, 2));
 
   return (
     <div id="home">
@@ -32,15 +40,16 @@ function Home(props) {
       
       <Donate/>
 
-      <div className="display-outer">
-        <div id="display-1" className="card-display">
-          {randomDisplays[0].map(c => <Card key={c.id} card={c} small/>)}
-        </div>
-        <div id="display-2" className="card-display">
-          {randomDisplays[1].map(c => <Card key={c.id} card={c} small/>)}
+      <div className="d-flex justify-content-center">
+        <div className="display-outer" style={{ transform: `scale(${scale})`}}>
+          <div id="display-1" className="card-display">
+            {randomDisplays[0].map(c => <Card key={c.id} card={c} small/>)}
+          </div>
+          <div id="display-2" className="card-display">
+            {randomDisplays[1].map(c => <Card key={c.id} card={c} small/>)}
+          </div>
         </div>
       </div>
-
     </div>
   )
 }
