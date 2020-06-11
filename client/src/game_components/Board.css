@@ -4,13 +4,31 @@
     justify-content: flex-start;
     margin: 0 auto;
 
-    padding-top: 2px;
     width: 100%;
-    min-width: 576px;
+    min-width: 576px; 
     height: calc(var(--cardheight) * 1.5); 
-    overflow-y: auto; 
 }
 
-.board::-webkit-scrollbar {
+#black-board {
+    height: calc(var(--cardheight) * 1.5); 
+}
+
+#white-board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-y: auto;
+    width: calc(100% - var(--cardwidth));
+    height: calc(var(--cardheight) * 1.5); 
+}
+
+#white-board::-webkit-scrollbar {
     display: none;
+}
+
+#white-board .stack {
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-bottom: 8px;
+    margin-top: 0px;
 }

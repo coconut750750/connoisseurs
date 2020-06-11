@@ -51,24 +51,24 @@ export default function Table(props) {
   const renderHeader = () => {
     if (props.phase === SELECTION) {
       if (canPlay()) {
-        return <h6>Make your selection</h6>;
+        return "Make your selection";
       } else {
-        return <h6>Waiting for other players to choose...</h6>;
+        return "Waiting for other players to choose...";
       }
     } else if (props.phase === REVEAL) {
       if (props.me.isConnoisseur()) {
-        return <h6>Revealing the white cards</h6>;
+        return "Revealing the white cards";
       } else {
-        return <h6>Waiting for the connoisseur to reveal white cards...</h6>;
+        return "Waiting for the connoisseur to reveal white cards...";
       }
     } else if (props.phase === JUDGING) {
       if (props.me.isConnoisseur()) {
-        return <h6>Choose a winner</h6>;
+        return "Choose a winner";
       } else {
-        return <h6>Waiting for the connoisseur to choose a winner...</h6>;
+        return "Waiting for the connoisseur to choose a winner...";
       }
     } else if (props.phase === WINNER) {
-      return <h6>{`${props.winner} wins!`}</h6>;
+      return `${props.winner} wins!`;
     }
   };
 
@@ -105,19 +105,19 @@ export default function Table(props) {
 
   return (
     <div>
-      {renderHeader(props.phase, props.played.length === 0, props.me.isConnoisseur(), props.winner)}
-      <br/>
+      <h6>{renderHeader(props.phase, props.played.length === 0, props.me.isConnoisseur(), props.winner)}</h6>
       
       <ScoreBoard
         players={props.players}
         ready={props.ready}
         scoreboard={props.scoreboard}/>
-      <br/>
 
-      <Deck
-        shuffle={ () => props.socket.emit('shuffle', {}) }
-        deckinfo={props.deckinfo}/>
-      <br/>
+      <div className="above-board">
+        <Deck
+          shuffle={ () => props.socket.emit('shuffle', {}) }
+          deckinfo={props.deckinfo}/>
+        <br/>
+      </div>
 
       <Board
         phase={props.phase}
@@ -146,7 +146,6 @@ export default function Table(props) {
           canSelect={props.phase === SELECTION}
           selected={props.phase === SELECTION ? selected : []}
           select={ (card) => updateSelected(card, selected)}/>
-        <br/>
       </div>
     </div>
   );

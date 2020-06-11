@@ -51,10 +51,14 @@ export default function Board(props) {
   return (
     <div className="d-flex justify-content-center">
       <div className="board" style={{transform: `scale(${scale})`}}>
-        <Card
-          card={props.blackcard}/>
+        <div id="black-board">
+          <Card
+            card={props.blackcard}/>
+        </div>
 
-        {renderWhiteBoard()}
+        <div id="white-board">
+          {renderWhiteBoard()}
+        </div>
       </div>
     </div>
   );

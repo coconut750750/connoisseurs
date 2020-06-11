@@ -2,7 +2,6 @@
     display: flex;
     justify-content: flex-end;
     vertical-align: middle;
-    height: 1.25em;
 }
 
 .deck button {
@@ -13,6 +12,7 @@
 .deck .item {
     display: flex;
     padding-left: 1.5vw;
+    height: 1.25em;
 }
 
 .deck .item .card-icon {

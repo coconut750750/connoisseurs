@@ -1,5 +1,11 @@
 .below-board {
-    box-shadow: 0 -4px 4px -4px #ededed;
+    box-shadow: 0 -4px 4px -4px #000;
+    z-index: 1;
+    position: relative;
+}
+
+.above-board {
+    box-shadow: 0 4px 4px -4px #000;
     z-index: 1;
     position: relative;
 }
