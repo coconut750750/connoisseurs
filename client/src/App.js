@@ -116,6 +116,7 @@ function App() {
     <div className="App">
       <br/>
         <h3>Connoisseurs</h3>
+        <h6>Cards Against Humanity online</h6>
       <hr/>
 
       {views[viewState]}
