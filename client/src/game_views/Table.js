@@ -19,7 +19,7 @@ export default function Table(props) {
   const [selectedWinner, setSelectedWinner] = useState(new WhiteCard(-1, ""));
 
   useEffect(() => {
-    if (selected.length != 0 && props.phase != SELECTION) {
+    if (selected.length !== 0 && props.phase !== SELECTION) {
       setSelected([]);
     }
   }, [props.phase, selected]);
