@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ScoreBoard from '../game_components/ScoreBoard';
 import Hand from '../game_components/Hand';
@@ -17,6 +17,12 @@ const WINNER = "winner";
 export default function Table(props) {
   const [selected, setSelected] = useState([]);
   const [selectedWinner, setSelectedWinner] = useState(new WhiteCard(-1, ""));
+
+  useEffect(() => {
+    if (selected.length != 0 && props.phase != SELECTION) {
+      setSelected([]);
+    }
+  }, [props.phase, selected]);
 
   const updateSelected = (card, prevSelected) => {
     if (prevSelected.map(k => k.id).includes(card.id)) {
