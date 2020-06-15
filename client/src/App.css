@@ -116,4 +116,5 @@ p {
     transform: translateX(-50%);
     white-space: nowrap;
     margin-bottom: 5vh;
+    z-index: 1;
 }

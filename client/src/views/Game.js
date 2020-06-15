@@ -138,16 +138,7 @@ export default function Game(props) {
       setResults(new ResultsModel(new ScoreBoard(points)));
     });
 
-    // get data if disconnected
-    props.socket.emit('getPhase', {});
-    props.socket.emit('getBlack', {});
-    props.socket.emit('getRevealed', {});
-    props.socket.emit('getWinner', {});
-    props.socket.emit('getHand', {});
-    props.socket.emit('getPlayed', {});
-    props.socket.emit('getPoints', {});
-    props.socket.emit('getDeckInfo', {});
-    props.socket.emit('getResults', {});
+    props.socket.emit('getReconnect', {});
 
   }, [props.gameCode, props.name, props.socket, setDisappearingMessage]);
 

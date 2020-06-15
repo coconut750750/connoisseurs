@@ -91,39 +91,16 @@ function socketio(socket, game, name, player) {
   });
 
   // reconnections
-  socket.on('getPhase', data => {
+  socket.on('getReconnect', data =>{
     socket.emit('phase', { phase: game.phase });
-  });
-
-  socket.on('getBlack', data => {
     game.reconnectSendBlack(player);
-  });
-
-  socket.on('getRevealed', data => {
+    game.reconnectSendReady(player);
     game.reconnectSendRevealed(player);
-  });
-
-  socket.on('getWinner', data => {
     game.reconnectSendWinner(player);
-  })
-
-  socket.on('getHand', data => {
     player.sendHand();
-  });
-
-  socket.on('getPlayed', data => {
     game.notifyPlayed(player);
-  });
-
-  socket.on('getPoints', data => {
     game.reconnectSendPoints(player);
-  });
-
-  socket.on('getDeckInfo', data => {
     game.reconnectSendDeckInfo(player);
-  });
-
-  socket.on('getResults', data => {
     game.reconnectSendResults(player);
   });
 }

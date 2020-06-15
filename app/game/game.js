@@ -346,6 +346,12 @@ class Game extends GameInterface {
     }
   }
 
+  reconnectSendReady(player) {
+    if (this.started) {
+      player.send('ready', { 'names': this.round.getPlayers() });
+    }
+  }
+
   reconnectSendRevealed(player) {
     if (this.phase === PHASES[3]) {
       player.send('revealed', { revealed: this.round.revealedWhites });
