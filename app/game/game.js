@@ -82,7 +82,6 @@ class Game extends GameInterface {
     this.roundCount = 0;
 
     this.round = new Round(this.pmanager.length());
-    this.round.nextConnoisseurName = this.pmanager.getRandomName();
 
     this.resetPlayers();
 
@@ -142,7 +141,7 @@ class Game extends GameInterface {
     this.phase = PHASES[1];
     this.notifyPhaseChange();
 
-    this.pmanager.setConnoisseur(this.round.nextConnoisseurName);
+    this.round.connoisseurName = this.pmanager.setNextConnoisseur(this.round.connoisseurName);
 
     this.round.discard(this.deck);
     this.round.reset();
@@ -290,12 +289,8 @@ class Game extends GameInterface {
     };
   }
 
-  getPlayerData() {
-    return { players: this.pmanager.getAll().map(p => p.infoJson()) };
-  }
-
   notifyPlayerUpdate() {
-    this.broadcast('players', this.getPlayerData());
+    this.broadcast('players', { players: this.pmanager.getPlayerData() });
   }
 
   notifyPhaseChange() {

@@ -4,6 +4,7 @@ class Round {
   constructor(n) {
     this.playerCount = n;
 
+    this.connoisseurName = undefined;
     this.reset();
   }
 
@@ -13,7 +14,6 @@ class Round {
     this.revealedWhites = [];
     this.cardsToPlayer = {};
     this.playerToCards = {};
-    this.nextConnoisseurName = undefined;
     this.winningCid = undefined;
   }
 
@@ -77,8 +77,7 @@ class Round {
 
   selectWinner(cid) {
     this.winningCid = cid;
-    this.nextConnoisseurName = this.cardsToPlayer[this.winningCid];
-    return this.nextConnoisseurName;
+    return this.cardsToPlayer[this.winningCid];
   }
 
   getWinner() {

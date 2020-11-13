@@ -6,6 +6,7 @@ class PlayerManager {
     this.notify = notify;
     this.onEmpty = onEmpty;
     this.players = {};
+    this.playerOrder = [];
   }
 
   length() {
@@ -29,6 +30,7 @@ class PlayerManager {
       return;
     }
     this.players[name] = new Player(name, socket, Object.keys(this.players).length === 0);
+    this.playerOrder.push(name);
     this.notify();
   }
 
@@ -36,6 +38,7 @@ class PlayerManager {
     if (this.exists(name)) {
       this.players[name].send('end', {});
       delete this.players[name];
+      this.playerOrder.splice(this.playerOrder.indexOf(name), 1);
     }
     if (this.allDeactivated()) {
       this.onEmpty();
@@ -95,9 +98,26 @@ class PlayerManager {
     this.notify();
   }
 
+  setNextConnoisseur(previousName) {
+    let connoisseur;
+    if (previousName === undefined) {
+      connoisseur = this.getRandomName();
+    } else {
+      let nextIndex = (this.playerOrder.indexOf(previousName) + 1) % this.playerOrder.length;
+      connoisseur = this.playerOrder[nextIndex];
+    }
+    this.setConnoisseur(connoisseur);
+
+    return connoisseur;
+  }
+
   getRandomName() {
     const rand = Math.floor(Math.random() * this.length());
     return Object.keys(this.players)[rand];
+  }
+
+  getPlayerData() {
+    return this.playerOrder.map(name => this.players[name].infoJson())
   }
 }
 

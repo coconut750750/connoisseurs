@@ -470,7 +470,7 @@ describe('starting a new round', () => {
     expect(game.deck.blackDiscardCount()).toBe(1);
   });
 
-  test('last winner is new connoisseur', () => {
+  test('new connoisseur rotates', () => {
     let newConnoisseur = "";
     const game = new Game('code', () => {}, undefined, (event, data) => {
       if (event !== 'players') {
@@ -487,10 +487,11 @@ describe('starting a new round', () => {
 
     threePlayerStart(game);
     setConnoisseur(game, 'p1');
+    game.round.connoisseurName = 'p1';
     const cids = playCards(game, ['p2', 'p3']);
     const p1 = game.getPlayer('p1');
     revealCards(game, p1);
-    game.selectWinner(p1, cids[0][0]);
+    game.selectWinner(p1, cids[1][0]);
 
     game.roundStart();
 
